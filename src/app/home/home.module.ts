@@ -7,6 +7,8 @@ import { TheatersComponent } from './theaters/theaters.component';
 import { HomeComponent } from './home.component';
 import { HomeRoutingModule } from './home-routing.module';
 import { CategoriesCreateUpdateComponent } from './categories/categories-create-update/categories-create-update.component';
+import {SharedModule} from '../shared/shared.module';
+import {MatSidenavModule} from '@angular/material/sidenav';
 
 
 @NgModule({
@@ -18,9 +20,11 @@ import { CategoriesCreateUpdateComponent } from './categories/categories-create-
     HomeComponent,
     CategoriesCreateUpdateComponent
   ],
-  imports: [
-    CommonModule,
-    HomeRoutingModule
-  ]
+    imports: [
+        CommonModule,
+        HomeRoutingModule,
+        SharedModule,
+        MatSidenavModule
+    ]
 })
 export class HomeModule { }

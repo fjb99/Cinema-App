@@ -10,6 +10,8 @@ import { CategoriesCreateUpdateComponent } from './categories/categories-create-
 import {SharedModule} from '../shared/shared.module';
 import {MatSidenavModule} from '@angular/material/sidenav';
 
+import {MatCardModule} from '@angular/material/card';
+import {MatTableModule} from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -20,11 +22,13 @@ import {MatSidenavModule} from '@angular/material/sidenav';
     HomeComponent,
     CategoriesCreateUpdateComponent
   ],
-    imports: [
-        CommonModule,
-        HomeRoutingModule,
-        SharedModule,
-        MatSidenavModule
-    ]
+  imports: [
+      CommonModule,
+      HomeRoutingModule,
+      SharedModule,
+      MatSidenavModule,
+      MatCardModule,
+      MatTableModule
+  ]
 })
 export class HomeModule { }

@@ -1,25 +1,22 @@
-<div class="container-fluid">
-    <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-    </form>
+<div class="row">
+  <div *ngFor="let movie of movies$ | async" class="col-sm-8 col-md-6 col-lg-4 col-xl-3 p-2">
     <mat-card class="example-card">
-        <mat-card-header>
-          <div mat-card-avatar class="example-header-image"></div>
-          <mat-card-title>Shiba Inu</mat-card-title>
-          <mat-card-subtitle>Dog Breed</mat-card-subtitle>
-        </mat-card-header>
-        <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
-        <mat-card-content>
-          <p>
-            The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
-            A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
-            bred for hunting.
-          </p>
-        </mat-card-content>
-        <mat-card-actions>
-          <button mat-button>LIKE</button>
-          <button mat-button>SHARE</button>
-        </mat-card-actions>
-      </mat-card>
+      <mat-card-header>
+        
+        <mat-card-title>Titulli: {{ movie.name }}</mat-card-title>
+        <mat-card-subtitle>Rating: {{ movie.rating }}</mat-card-subtitle>
+      </mat-card-header>
+      <img mat-card-image [src]="movie.imageURL" alt="Photo of a Shiba Inu">
+      <mat-card-content>
+        <p>Description: {{ movie.description }}</p>
+        
+        <p>Kategoria: {{ movie.category.name }}</p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button class="btn btn-primary">Like</button>
+        <button mat-button class="btn btn-primary">Edit</button>
+        <button mat-button class="btn btn-danger">Delete</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
 </div>

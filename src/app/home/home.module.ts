@@ -17,6 +17,10 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import { MoviesCreateUpdateComponent } from './movies/movies-create-update/movies-create-update.component';
+import { SchedulesCreateUpdateComponent } from './schedules/schedules-create-update/schedules-create-update.component';
+import { TheatersCreateUpdateComponent } from './theaters/theaters-create-update/theaters-create-update.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +29,10 @@ import { MatButtonModule } from '@angular/material/button';
     SchedulesComponent,
     TheatersComponent,
     HomeComponent,
-    CategoriesCreateUpdateComponent
+    CategoriesCreateUpdateComponent,
+    MoviesCreateUpdateComponent,
+    SchedulesCreateUpdateComponent,
+    TheatersCreateUpdateComponent
   ],
   imports: [
       CommonModule,
@@ -38,7 +45,8 @@ import { MatButtonModule } from '@angular/material/button';
       MatToolbarModule,
       MatIconModule,
       MatListModule,
-      MatButtonModule
+      MatButtonModule,
+      MatFormFieldModule
        
   ]
 })

@@ -1,15 +1,15 @@
 <!--<img src="assets/img/cinema.webp" alt="">-->
-<form class="mt-5">
+<form *ngIf="loginForm !== undefined && loginForm !== null" class="mt-5 d-flex flex-column" [formGroup]="loginForm" (submit)="login()">
   <img src="assets/img/cinema.webp" >
-    <div class="form-group">
-      <label for="email">Email address</label>
-      <input type="email" formControlName="email" 
-      class="form-control" id="email" aria-describedby="email" placeholder="Enter email">
-    </div>
-    <div class="form-group">
-      <label for="password">Password</label>
-      <input type="password" 
-      formControlName="password" class="form-control" id="password" placeholder="Password">
-    </div>
-    <button type="submit" class="btn btn-primary" >Submit</button>
+    <mat-form-field appearance="standard">
+      <mat-label>Email</mat-label>
+      <input type="email" autocomplete="email" matInput placeholder="Enter your email" formControlName="email" required>
+      <mat-error *ngIf="loginForm.get('email')?.hasError('required')">Email is required!</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="standard">
+      <mat-label>Password</mat-label>
+      <input type="password" autocomplete="current-password" matInput placeholder="Enter your password" formControlName="password" required>
+      <mat-error *ngIf="loginForm.get('password')?.hasError('required')">Password is required!</mat-error>
+    </mat-form-field>
+    <button type="submit" class="btn btn-primary mt-3" [disabled]="loginForm.invalid">Submit</button>
   </form>

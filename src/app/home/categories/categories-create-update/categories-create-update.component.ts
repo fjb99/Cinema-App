@@ -12,4 +12,6 @@ export class CategoriesCreateUpdateComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  
+ 
 }

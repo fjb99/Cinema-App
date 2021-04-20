@@ -1,1 +1,15 @@
-<p>theaters-create-update works!</p>
+<h1>New Theater</h1>
+<form class="mt-4 mb-4 d-flex flex-column">
+    <mat-form-field appearance="legacy">
+        <mat-label>Number of Theater</mat-label>
+        <input matInput>
+    </mat-form-field>
+    <mat-form-field appearance="legacy">
+        <mat-label>Capacity</mat-label>
+        <input matInput>
+    </mat-form-field>
+</form>
+<div class="d-flex justify-content-between">
+    <button mat-button class="btn btn-success" name="save">Save</button>
+    <button mat-button class="btn btn-secondary" mat-dialog-close name="cancel">Cancel</button>
+</div>

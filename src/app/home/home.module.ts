@@ -21,6 +21,10 @@ import { MoviesCreateUpdateComponent } from './movies/movies-create-update/movie
 import { SchedulesCreateUpdateComponent } from './schedules/schedules-create-update/schedules-create-update.component';
 import { TheatersCreateUpdateComponent } from './theaters/theaters-create-update/theaters-create-update.component';
 import { MatSnackBarConfig, MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
+import {MatDialogModule} from '@angular/material/dialog';
+import { MatInputModule } from '@angular/material/input';
+import {MatSelectModule} from '@angular/material/select';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -46,7 +50,12 @@ import { MatSnackBarConfig, MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/mater
       MatIconModule,
       MatListModule,
       MatButtonModule,
-      MatFormFieldModule
+      MatFormFieldModule,
+      MatIconModule,
+      MatDialogModule,
+      MatInputModule,
+      MatSelectModule,
+      ReactiveFormsModule
   ],
   providers: [
     {

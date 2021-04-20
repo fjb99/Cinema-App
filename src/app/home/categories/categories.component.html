@@ -1,21 +1,18 @@
 <form class="d-flex">
-  <button type="button" class="btn btn-success mr-3">Create</button>
+  <button type="button" class="btn btn-success mr-3" (click)="add()">Create</button>
   <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
   <button class="btn btn-success" type="submit">Search</button>
 </form>
 <hr>
 <div class="row">
   <div *ngFor="let category of categories$ | async" class="col-sm-6 col-md-4 col-lg-3 col-xl-2 p-2">
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">#{{ category.id }}</h5>
-        <p class="card-text">{{ category.name }}</p>
-        <p class="card-text">{{ category.createdAt | date: 'dd/MM/YYYY HH:mm:ss' }}</p>
-        <div class="d-flex justify-content-between">
-          <a href="#" class="btn btn-primary">Edit</a>
-          <a href="#" class="btn btn-danger">Delete</a>
+    <mat-card class="w-auto">
+      <mat-card-title>{{ category.name }}</mat-card-title>
+      <mat-card-subtitle>Created: {{ category.createdAt | date: 'dd/MM/YYYY' }}</mat-card-subtitle>
+      <div class="d-flex justify-content-between">
+        <button  mat-button class="btn btn-primary" name="edit">Edit</button>
+        <button mat-button class="btn btn-danger" name="delete">Delete</button>
       </div>
-      </div>
-    </div>
+    </mat-card>
   </div>
 </div>

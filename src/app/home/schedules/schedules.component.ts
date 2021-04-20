@@ -36,6 +36,8 @@ export class SchedulesComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  
+  public add(): void {
+    
+  }
   
 }

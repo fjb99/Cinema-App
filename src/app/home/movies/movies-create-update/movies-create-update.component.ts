@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'ikub-movies-create-update',
@@ -7,7 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MoviesCreateUpdateComponent implements OnInit {
 
-  constructor() { }
+  options!: FormGroup;
+  categoryControl = new FormControl('primary'); 
+
+  constructor(fb: FormBuilder) {
+    this.options = fb.group({
+      category: this.categoryControl
+    });
+  }
 
   ngOnInit(): void {
   }

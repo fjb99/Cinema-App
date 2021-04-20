@@ -3,6 +3,7 @@
   <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
   <button class="btn btn-success" type="submit">Search</button>
 </form>
+<hr>
 <table mat-table [dataSource]="data" class="mat-elevation-z8">
   <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns">
     <th mat-header-cell *matHeaderCellDef> {{column}} </th>

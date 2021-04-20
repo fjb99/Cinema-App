@@ -11,8 +11,8 @@
       <mat-card-actions class="p-2">Capacity: {{ theater.capacity }}</mat-card-actions>
       <mat-card-subtitle>Created: {{ theater.createdAt | date: 'dd/MM/YYYY' }}</mat-card-subtitle>
       <div class="d-flex justify-content-between">
-        <button  mat-button class="btn btn-primary" name="save">Edit</button>
-        <button mat-button class="btn btn-danger" mat-dialog-close name="cancel">Delete</button>
+        <button  mat-button color="primary" name="save">Edit</button>
+        <button mat-button color="warn" mat-dialog-close name="cancel">Delete</button>
       </div>
     </mat-card>
   </div>

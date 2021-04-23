@@ -10,19 +10,19 @@ import { ScheduleService } from 'src/app/core/services/schedule.service';
 })
 export class SchedulesComponent implements OnInit {
 
-  public schedules$!: Observable<Array<ISchedule>>; 
+  public schedules$!: Observable<Array<ISchedule>>;
 
   constructor(private scheduleService: ScheduleService) { }
 
   ngOnInit(): void {
-
+    this.loadSchedules();
   }
 
-  public loadSchedules(): void {
-    this.schedules$ = this.scheduleService.getlist(); 
+  private loadSchedules(): void {
+    this.schedules$ = this.scheduleService.getlist();
   }
 
   public add(): void {
-    
+
   }
 }

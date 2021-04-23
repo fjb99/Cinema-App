@@ -8,5 +8,5 @@ export interface ISchedule {
     movie: IMovie;
     theater: ITheatre;
     price: number;
-    // ToFIX: Two time declaration: createdAt and dataTime at db 
+    dateTime: Data;
 }

@@ -1,6 +1,6 @@
 <div class="d-flex flex-column min-vh-100">
    <mat-toolbar color="primary">
-        <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+        <button mat-icon-button class="example-icon" (click)="toggleMenu()" aria-label="Example icon-button with menu icon">
             <mat-icon>menu</mat-icon>
         </button>
         <span>My App</span>
@@ -15,7 +15,7 @@
   
 
     <mat-drawer-container class="flex-grow-1">
-        <mat-drawer mode="side" opened>
+        <mat-drawer mode="side" [opened]="toggleSideMenu">
             <mat-nav-list class="pt-0">
                 <a mat-list-item routerLink="/home/movies" routerLinkActive="active">Movies</a>
                 <a mat-list-item routerLink="/home/categories" routerLinkActive="active">Category</a>
@@ -24,8 +24,12 @@
             </mat-nav-list>
         </mat-drawer>
         <mat-drawer-content class="p-4">
-            
             <router-outlet></router-outlet>
+            <mat-paginator 
+                [length]="100"
+                [pageSize]="10"
+                [pageSizeOptions]="[5, 10, 25, 100]">
+            </mat-paginator>
         </mat-drawer-content>
     </mat-drawer-container>
 

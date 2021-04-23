@@ -1,31 +1,33 @@
 <h1>New Movie</h1>
-<form class="row" [formGroup]="options">
-    <mat-form-field appearance="fill" class="col-sm-12 col-md-6">
-        <mat-label>Name</mat-label>
-        <input matInput>
-    </mat-form-field>
-    <mat-form-field appearance="fill" class="col-sm-12 col-md-6">
-        <mat-label>Color</mat-label>
-        <mat-select [formControl]="categoryControl">
-            <mat-option value="primary" >Primary</mat-option>
-            <mat-option value="accent">Accent</mat-option>
-            <mat-option value="warn">Warn</mat-option>
-        </mat-select>
-    </mat-form-field>
-    <mat-form-field appearance="fill" class="col-sm-12 col-md-6">
-        <mat-label>Rating</mat-label>
-        <input matInput>
-    </mat-form-field>
-    <mat-form-field appearance="fill" class="col-sm-12 col-md-6">
-        <mat-label>Image URL</mat-label>
-        <input matInput>
-    </mat-form-field>
-    <mat-form-field appearance="fill" class="col-sm-12">
-        <mat-label>Textarea</mat-label>
-        <textarea matInput></textarea>
-      </mat-form-field>
+<form class="row dialog-form" [formGroup]="form">
+  <mat-form-field appearance="fill" class="col-sm-12 col-md-6">
+    <mat-label>Name</mat-label>
+    <input matInput formControlName="name">
+  </mat-form-field>
+  <mat-form-field appearance="fill" class="col-sm-12 col-md-6">
+    <mat-label>Category</mat-label>
+    <mat-select formControlName="category">
+      <mat-option *ngFor="let category of categories$ | async" [value]="category">{{ category.name }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="fill" class="col-sm-6 col-md-3">
+    <mat-label>Rating</mat-label>
+    <input type="number" matInput formControlName="rating">
+  </mat-form-field>
+  <mat-form-field appearance="fill" class="col-sm-6 col-md-3">
+    <mat-label>Year</mat-label>
+    <input type="number" matInput formControlName="year">
+  </mat-form-field>
+  <mat-form-field appearance="fill" class="col-sm-12 col-md-6">
+    <mat-label>Image URL</mat-label>
+    <input matInput formControlName="imageUrl">
+  </mat-form-field>
+  <mat-form-field appearance="fill" class="col-sm-12">
+    <mat-label>Description</mat-label>
+    <textarea matInput formControlName="description"></textarea>
+  </mat-form-field>
 </form>
-<div class="d-flex justify-content-between">
-    <button mat-button class="btn btn-success" name="save">Save</button>
-    <button mat-button class="btn btn-secondary" mat-dialog-close name="cancel">Cancel</button>
+<div class="d-flex justify-content-end">
+  <button mat-button color="warn" mat-dialog-close name="cancel">Cancel</button>
+  <button mat-button color="primary" [disabled]="form?.invalid" name="save" (click)="save()">Save</button>
 </div>

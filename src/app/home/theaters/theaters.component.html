@@ -3,7 +3,7 @@
     <mat-label>Filter</mat-label>
     <input matInput placeholder="Ex. ium" #input> <!-- (keyup)="applyFilter($event)" -->
   </mat-form-field>
-  
+
   <button mat-fab color="primary" (click)="add()">
     <mat-icon>create</mat-icon>
   </button>
@@ -11,13 +11,13 @@
 <div class="row">
   <div *ngFor="let theater of theaters$ | async" class="col-sm-6 col-md-4 col-lg-3 col-xl-2 p-2">
     <mat-card class="w-auto">
-      <mat-card-title class="mb-4">Number of Theater: {{ theater.number }}</mat-card-title>
-      <mat-card-actions class="p-2">Capacity: {{ theater.capacity }}</mat-card-actions>
+      <mat-card-title class="mb-4">#{{ theater.number }}</mat-card-title>
       <mat-card-subtitle>Created: {{ theater.createdAt | date: 'dd/MM/YYYY' }}</mat-card-subtitle>
-      <div class="d-flex justify-content-between">
+      <div>Capacity: {{ theater.capacity }}</div>
+      <mat-card-actions class="d-flex">
         <button  mat-button color="primary" name="save">Edit</button>
         <button mat-button color="warn" mat-dialog-close name="cancel">Delete</button>
-      </div>
+      </mat-card-actions>
     </mat-card>
   </div>
 </div>

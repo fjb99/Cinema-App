@@ -1,6 +1,6 @@
 export interface ITheatre {
-    id: number; 
+    id: string;
     number: number;
-    capacity: number; 
+    capacity: number;
     createdAt: Date;
 }

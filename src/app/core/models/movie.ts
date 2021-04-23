@@ -1,11 +1,12 @@
 import { ICategory } from './category';
 
 export interface IMovie {
-    id: number; 
-    name: string; 
+    id: string;
+    name: string;
     category: ICategory;
-    description: string; 
-    imageURL: string; 
-    rating: string; 
-    createdAt: Date; 
+    description: string;
+    imageUrl: string;
+    rating: string;
+    createdAt: Date;
+    year: number;
 }

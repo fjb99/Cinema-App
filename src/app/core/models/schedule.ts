@@ -3,7 +3,7 @@ import { IMovie } from './movie';
 import { ITheatre } from './theatre';
 
 export interface ISchedule {
-    id: number; 
+    id: string;
     createdAt: Data;
     movie: IMovie;
     theater: ITheatre;

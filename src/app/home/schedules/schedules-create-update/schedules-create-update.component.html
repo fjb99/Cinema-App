@@ -1,40 +1,39 @@
 <h1>New Schedule</h1>
-<form class="row" [formGroup]="form">
+<form class="row dialog-form" [formGroup]="form">
     <!--movie-->
-    <mat-form-field appearance="fill" >
+    <mat-form-field appearance="fill" class="col-sm-12 col-md-6">
         <mat-label>Movie</mat-label>
         <mat-select formControlName="movie">
             <mat-option *ngFor="let movie of movies$ | async" [value]="movie">{{ movie.name }}</mat-option>
         </mat-select>
     </mat-form-field>
     <!--theater-->
-    <mat-form-field appearance="fill" >
+    <mat-form-field appearance="fill" class="col-sm-12 col-md-6">
         <mat-label>Category</mat-label>
         <mat-select formControlName="theater">
         <mat-option *ngFor="let theater of theaters$ | async" [value]="theater">{{ theater.number }}</mat-option>
         </mat-select>
     </mat-form-field>
     <!--price-->
-    <mat-form-field appearance="fill" >
-        <mat-label>Amount</mat-label>
+    <mat-form-field appearance="fill" class="col-sm-12 col-md-4">
+        <mat-label>Price</mat-label>
         <input matInput type="number" class="example-right-align" formControlName="price">
         <span matPrefix>$&nbsp;</span>
         <span matSuffix>.00</span>
     </mat-form-field>
     <!--date-->
-    <mat-form-field appearance="fill" >
+    <mat-form-field appearance="fill" class="col-sm-12 col-md-4">
         <mat-label>Choose a date</mat-label>
         <input matInput [matDatepicker]="picker" formControlName="date">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
     <!--time-->
-    <mat-form-field appearance="fill" >
+    <mat-form-field appearance="fill" class="col-sm-12 col-md-4">
         <input matInput formControlName="time" placeholder="Time" type="time">
     </mat-form-field>
-
-  <div class="d-flex justify-content-end">
+</form>
+<div class="d-flex justify-content-end">
     <button mat-button color="warn" mat-dialog-close name="cancel">Cancel</button>
     <button mat-button color="primary" [disabled]="form?.invalid" name="save" (click)="save()">Save</button>
   </div>
-</form>

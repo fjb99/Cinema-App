@@ -8,23 +8,21 @@
         <div class="example-button-row">
             <button mat-raised-button>Logout</button>
         </div>
-        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
-            <mat-icon>share</mat-icon>
-        </button>
     </mat-toolbar>
 
 
     <mat-drawer-container class="flex-grow-1">
         <mat-drawer mode="side" [opened]="toggleSideMenu">
             <mat-nav-list class="pt-0">
-                <a mat-list-item routerLink="/home/movies" routerLinkActive="active">Movies</a>
-                <a mat-list-item routerLink="/home/categories" routerLinkActive="active">Category</a>
-                <a mat-list-item routerLink="/home/schedules" routerLinkActive="active">Schedules</a>
-                <a mat-list-item routerLink="/home/theaters" routerLinkActive="active">Theateres</a>
+                <a mat-list-item routerLink="/home/movies" routerLinkActive="active"><span class="px-2"><mat-icon>movie</mat-icon></span>Movies</a>
+                <a mat-list-item routerLink="/home/categories" routerLinkActive="active"><span class="px-2"><mat-icon>category</mat-icon></span>Category</a>
+                <a mat-list-item routerLink="/home/schedules" routerLinkActive="active"><span class="px-2"><mat-icon>schedule</mat-icon></span>Schedules</a>
+                <a mat-list-item routerLink="/home/theaters" routerLinkActive="active"><span class="px-2"><mat-icon>theaters</mat-icon></span>Theateres</a>
             </mat-nav-list>
         </mat-drawer>
         <mat-drawer-content class="p-4">
             <router-outlet></router-outlet>
+
         </mat-drawer-content>
     </mat-drawer-container>
 

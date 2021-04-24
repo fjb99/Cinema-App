@@ -39,16 +39,16 @@ private buildForm(): void {
   });
 }
 
-private loadMovielist() {
+private loadMovielist(): void {
   this.movies$ = this.movieService.getList();
 }
 
-private loarTheaterList() {
+private loarTheaterList(): void {
   this.theaters$ = this.theaterService.getList();
 }
 
-public save() {
-
+public save(): void {
+  console.log(this.form.value);
 }
 
 }

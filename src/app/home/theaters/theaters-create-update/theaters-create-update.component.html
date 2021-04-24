@@ -1,15 +1,15 @@
 <h1>New Theater</h1>
-<form class="mt-4 mb-4 d-flex flex-column">
-    <mat-form-field appearance="legacy">
-        <mat-label>Number of Theater</mat-label>
-        <input matInput>
+<form class="row" [formGroup]="form">
+    <mat-form-field appearance="fill" class="col-sm-6">
+        <mat-label>Theater number</mat-label>
+        <input matInput formControlName="number">
     </mat-form-field>
-    <mat-form-field appearance="legacy">
+    <mat-form-field appearance="fill" class="col-sm-6">
         <mat-label>Capacity</mat-label>
-        <input matInput>
+        <input matInput formControlName="capacity">
     </mat-form-field>
 </form>
-<div class="d-flex justify-content-between">
-    <button mat-button color="primary" name="save">Save</button>
-    <button mat-button color="basic" mat-dialog-close name="cancel">Cancel</button>
+<div class="d-flex justify-content-end">
+    <button mat-button color="warn" mat-dialog-close name="cancel">Cancel</button>
+    <button mat-button color="primary" [disabled]="form?.invalid" (click)="save()" name="save">Save</button>
 </div>

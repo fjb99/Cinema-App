@@ -26,6 +26,7 @@ import { MatInputModule } from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
 import { ReactiveFormsModule } from '@angular/forms';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import {MatPaginatorModule} from '@angular/material/paginator';
       MatInputModule,
       MatSelectModule,
       ReactiveFormsModule,
-      MatPaginatorModule
+      MatPaginatorModule,
+      MatDatepickerModule
   ],
   providers: [
     {

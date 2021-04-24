@@ -1,13 +1,24 @@
-<div class="d-flex">
-  <mat-form-field class="flex-grow-1">
-    <mat-label>Filter</mat-label>
-    <input matInput placeholder="Ex. ium" #input> <!-- (keyup)="applyFilter($event)" -->
+<form class="d-flex border" [formGroup]="form">
+
+  <mat-form-field class="flex-grow-1 col-md-6">
+    <mat-label>Search</mat-label>
+    <input matInput placeholder="Ex. ium" formControlName="filter"> <!-- (keyup)="applyFilter($event)" -->
   </mat-form-field>
 
-  <button mat-fab color="primary" (click)="add()">
-    <mat-icon>create</mat-icon>
+  <mat-form-field appearance="legacy" class="col-md-5">
+    <mat-label>Category</mat-label>
+    <mat-select formControlName="category">
+      <mat-option>None</mat-option>
+      <mat-option *ngFor="let category of categories$ | async" [value]="category">
+        {{category.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <button mat-button color="primary">
+    <mat-icon>search</mat-icon>
   </button>
-</div>
+</form>
 <div class="row">
   <div *ngFor="let movie of movies$ | async" class="col-sm-12 col-md-6 col-lg-4 col-xl-3 p-2">
     <mat-card class="w-auto">
@@ -24,3 +35,6 @@
     </mat-card>
   </div>
 </div>
+<button mat-fab color="primary" (click)="add()">
+  <mat-icon>create</mat-icon>
+</button>

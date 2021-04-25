@@ -11,7 +11,7 @@ export class ScheduleService {
 
   constructor(private httpClient: HttpClient) { }
 
-  public getlist(): Observable<Array<ISchedule>> {
+  public getList(): Observable<Array<ISchedule>> {
     return this.httpClient.get<Array<ISchedule>>(`${environment.apiUrl}/schedules`);
   }
 
@@ -20,15 +20,15 @@ export class ScheduleService {
   }
 
   public create(request: ISchedule): Observable<ISchedule> {
-    return this.httpClient.post<ISchedule>(`${environment.apiUrl}/schedules`, request); 
+    return this.httpClient.post<ISchedule>(`${environment.apiUrl}/schedules`, request);
   }
 
   public update(request: ISchedule): Observable<ISchedule> {
-    return this.httpClient.put<ISchedule>(`${environment.apiUrl}/schedules/${request.id}`, request); 
+    return this.httpClient.put<ISchedule>(`${environment.apiUrl}/schedules/${request.id}`, request);
   }
 
   public delete(id: ISchedule): Observable<ISchedule> {
-    return this.httpClient.delete<ISchedule>(`${environment.apiUrl}/schedules/${id}`); 
+    return this.httpClient.delete<ISchedule>(`${environment.apiUrl}/schedules/${id}`);
   }
 
 }

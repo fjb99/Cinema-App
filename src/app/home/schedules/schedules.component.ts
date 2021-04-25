@@ -40,7 +40,7 @@ export class SchedulesComponent implements OnInit {
   }
 
   private loadSchedules(): void {
-    this.schedules$ = this.scheduleService.getlist();
+    this.schedules$ = this.scheduleService.getList();
   }
 
 

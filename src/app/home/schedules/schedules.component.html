@@ -1,25 +1,25 @@
-<form class="d-flex" [formGroup]="form">
-
-  <mat-form-field class="flex-grow-1 col-md-6">
-    <mat-label>Movie</mat-label>
-    <input matInput formControlName="movieName"> <!-- (keyup)="applyFilter($event)" -->
-  </mat-form-field>
-
-
-  <mat-form-field appearance="legacy" class="col-md-5">
-    <mat-label>Theater</mat-label>
-    <mat-select formControlName="theater">
-      <mat-option>None</mat-option>
-      <mat-option *ngFor="let theater of theaters$ | async" [value]="theater">
-        {{theater.number}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-
-  <button mat-button color="primary" class="m-0">
-    <mat-icon>search</mat-icon>
-  </button>
-</form>
+<div class="d-flex flex-column flex-md-row align-items-end align-items-md-start mb-3 mb-md-0">
+  <div class="w-100">
+    <form class="row" [formGroup]="form">
+      <mat-form-field class="col-sm-12 col-md-6">
+        <mat-label>Movie</mat-label>
+        <input matInput formControlName="movieName"> <!-- (keyup)="applyFilter($event)" -->
+      </mat-form-field>
+      <mat-form-field appearance="legacy" class="col-sm-12 col-md-6">
+        <mat-label>Theater</mat-label>
+        <mat-select formControlName="theater">
+          <mat-option>None</mat-option>
+          <mat-option *ngFor="let theater of theaters$ | async" [value]="theater">
+            {{theater.number}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+  </div>
+  <div class="ml-4">
+    <button mat-raised-button color="primary">Search</button>
+  </div>
+</div>
 
 <ng-container *ngIf="schedules$ | async as schedules">
   <table mat-table [dataSource]="schedules" class="mat-elevation-z8">

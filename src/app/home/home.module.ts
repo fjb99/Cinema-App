@@ -20,7 +20,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MoviesCreateUpdateComponent } from './movies/movies-create-update/movies-create-update.component';
 import { SchedulesCreateUpdateComponent } from './schedules/schedules-create-update/schedules-create-update.component';
 import { TheatersCreateUpdateComponent } from './theaters/theaters-create-update/theaters-create-update.component';
-import { MatSnackBarConfig, MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
+import { MatSnackBarConfig, MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import {MatDialogConfig, MatDialogModule, MAT_DIALOG_DEFAULT_OPTIONS} from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
@@ -54,14 +54,14 @@ import {MatNativeDateModule} from '@angular/material/core';
       MatListModule,
       MatButtonModule,
       MatFormFieldModule,
-      MatIconModule,
       MatDialogModule,
       MatInputModule,
       MatSelectModule,
       ReactiveFormsModule,
       MatPaginatorModule,
       MatDatepickerModule,
-      MatNativeDateModule
+      MatNativeDateModule,
+      MatSnackBarModule
   ],
   providers: [
     {

@@ -1,7 +1,7 @@
 <div class="d-flex flex-column min-vh-100">
    <mat-toolbar color="primary">
-        <button mat-icon-button class="example-icon" (click)="toggleMenu()" aria-label="Example icon-button with menu icon">
-            <mat-icon>menu</mat-icon>
+        <button mat-icon-button class="mr-2" (click)="toggleMenu()" aria-label="Example icon-button with menu icon">
+            <mat-icon>{{ toggleSideMenu ? 'arrow_back' : 'menu' }}</mat-icon>
         </button>
         <span>My App</span>
         <span class="example-spacer"></span>

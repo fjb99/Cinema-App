@@ -10,3 +10,14 @@
 input :hover{
     background: none !important;
 }
+
+.mat-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  word-break: break-all; // IE Fallback
+  word-break: break-word;
+  .mat-card-actions {
+    margin-top: auto;
+  }
+}

@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ICategory } from 'src/app/core/models/category';
 
 @Component({
   selector: 'ikub-categories-create-update',
@@ -7,10 +9,10 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./categories-create-update.component.scss']
 })
 export class CategoriesCreateUpdateComponent implements OnInit {
-
   form!: FormGroup;
+  onSaveFn!: (formValue: { name: string }) => void;
 
-  constructor() { }
+  constructor(@Inject(MAT_DIALOG_DATA) public selectedCategory: ICategory | undefined | null) { }
 
   ngOnInit(): void {
     this.buildForm();
@@ -18,11 +20,7 @@ export class CategoriesCreateUpdateComponent implements OnInit {
 
   private buildForm(): void {
     this.form = new  FormGroup({
-      category: new FormControl(null, Validators.required)
+      name: new FormControl(this.selectedCategory?.name ?? null, Validators.required)
     });
-  }
-
-  save() {
-
   }
 }

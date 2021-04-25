@@ -1,31 +1,32 @@
-<form class="d-flex" [formGroup]="form">
-
-  <mat-form-field class="flex-grow-1 col-md-6">
-    <mat-label>Movie</mat-label>
-    <input matInput formControlName="name"> <!-- (keyup)="applyFilter($event)" -->
-  </mat-form-field>
-
-  <mat-form-field appearance="legacy" class="col-md-5">
-    <mat-label>Category</mat-label>
-    <mat-select formControlName="category">
-      <mat-option>None</mat-option>
-      <mat-option *ngFor="let category of categories$ | async" [value]="category">
-        {{category.name}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-
-  <button mat-button color="primary">
-    <mat-icon>search</mat-icon>
-  </button>
-</form>
-<div class="row">
-  <div *ngFor="let movie of movies$ | async" class="col-sm-12 col-md-6 col-lg-4 col-xl-3 p-2">
+<div class="d-flex flex-column flex-md-row align-items-end align-items-md-start mb-3 mb-md-0">
+  <div class="w-100">
+    <form class="row" [formGroup]="form">
+      <mat-form-field class="col-sm-12 col-md-6">
+        <mat-label>Movie</mat-label>
+        <input matInput formControlName="name"> <!-- (keyup)="applyFilter($event)" -->
+      </mat-form-field>
+      <mat-form-field appearance="legacy" class="col-sm-12 col-md-6">
+        <mat-label>Category</mat-label>
+        <mat-select formControlName="category">
+          <mat-option>None</mat-option>
+          <mat-option *ngFor="let category of categories$ | async" [value]="category">
+            {{category.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+  </div>
+  <div class="ml-4">
+    <button mat-raised-button color="primary">Search</button>
+  </div>
+</div>
+<div class="row px-2 pb-2">
+  <div *ngFor="let movie of movies$ | async" class="col-sm-12 col-md-6 col-lg-4 col-xl-3 px-2 pb-3">
     <mat-card class="w-auto">
       <mat-card-title class="mb-4">{{ movie.name }} ({{ movie.year }})</mat-card-title>
       <mat-card-subtitle>Created: {{ movie.createdAt | date: 'dd/MM/YYYY' }}</mat-card-subtitle>
       <img mat-card-image [src]="movie.imageUrl" alt="Photo of a Shiba Inu">
-      <div class="mb-2">Kategoria: {{ movie.category.name }}</div>
+      <div class="mb-2">Kategoria: {{ movie.category?.name }}</div>
       <div class="mb-2">Description: {{ movie.description }}</div>
       <div>Rating: {{ movie.rating }}</div>
       <mat-card-actions class="d-flex">

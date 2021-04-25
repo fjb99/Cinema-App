@@ -6,10 +6,11 @@
       <input type="email" autocomplete="email" matInput placeholder="Enter your email" formControlName="email" required>
       <mat-error *ngIf="loginForm.get('email')?.hasError('required')">Email is required!</mat-error>
     </mat-form-field>
-    <mat-form-field appearance="standard">
+    <mat-form-field appearance="standard" hintLabel="Should be at least 6 characters">
       <mat-label>Password</mat-label>
-      <input type="password" autocomplete="current-password" matInput placeholder="Enter your password" formControlName="password" required>
+      <input  type="password" autocomplete="current-password" matInput placeholder="Enter your password" formControlName="password" required>
       <mat-error *ngIf="loginForm.get('password')?.hasError('required')">Password is required!</mat-error>
+      <mat-error *ngIf="loginForm.get('password')?.hasError('minlength')">Minimum 6 characters!</mat-error>
     </mat-form-field>
     <button type="submit" class="btn btn-primary mt-3" [disabled]="loginForm.invalid">Submit</button>
   </form>

@@ -16,7 +16,7 @@ import { MoviesCreateUpdateComponent } from './movies-create-update/movies-creat
 export class MoviesComponent implements OnInit {
 
   public movies$!: Observable<Array<IMovie>>;
-  public categories$: Observable<Array<ICategory>> | undefined;
+  public categories$!: Observable<Array<ICategory>>;
   public form!: FormGroup;
   constructor(
     private movieService: MovieService,
@@ -31,8 +31,8 @@ export class MoviesComponent implements OnInit {
 
   private buildForm(): void {
     this.form = new FormGroup({
-      filter: new FormControl(null),
-      category: new FormControl(null)
+      name: new FormControl(),
+      category: new FormControl()
     });
   }
 

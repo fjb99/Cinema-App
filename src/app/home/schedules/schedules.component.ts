@@ -34,8 +34,8 @@ export class SchedulesComponent implements OnInit {
 
   private buldForm(): void {
     this.form = new FormGroup({
-      filter: new FormControl(null),
-      theater: new FormControl(null)
+      movieName: new FormControl(),
+      theater: new FormControl()
     });
   }
 

@@ -1,8 +1,8 @@
 <form class="d-flex" [formGroup]="form">
 
   <mat-form-field class="flex-grow-1 col-md-6">
-    <mat-label>Search</mat-label>
-    <input matInput formControlName="filter"> <!-- (keyup)="applyFilter($event)" -->
+    <mat-label>Movie</mat-label>
+    <input matInput formControlName="movieName"> <!-- (keyup)="applyFilter($event)" -->
   </mat-form-field>
 
 
@@ -63,6 +63,6 @@
   </table>
 </ng-container>
 
-<button mat-fab class="orange" (click)="add()">
-  <mat-icon>create</mat-icon>
+<button mat-fab (click)="add()">
+  <mat-icon>add</mat-icon>
 </button>

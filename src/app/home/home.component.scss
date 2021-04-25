@@ -7,9 +7,10 @@
 }
 
 .active {
-    color: orange;
+    color: var(--mat-warn);
 }
 
 .width {
   width: 15%;
 }
+

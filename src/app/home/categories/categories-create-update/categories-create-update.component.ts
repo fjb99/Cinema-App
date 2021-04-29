@@ -10,7 +10,7 @@ import { ICategory } from 'src/app/core/models/category';
 })
 export class CategoriesCreateUpdateComponent implements OnInit {
   form!: FormGroup;
-  onSaveFn!: (formValue: { name: string }) => void;
+  onSaveFn!: (formValue: ICategory) => void;
 
   constructor(@Inject(MAT_DIALOG_DATA) public selectedCategory: ICategory | undefined | null) { }
 

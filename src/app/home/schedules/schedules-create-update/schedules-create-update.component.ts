@@ -2,12 +2,11 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Observable} from 'rxjs';
-import { ICategory } from 'src/app/core/models/category';
 import { IMovie } from 'src/app/core/models/movie';
 import { ISchedule } from 'src/app/core/models/schedule';
-import { ITheatre } from 'src/app/core/models/theatre';
+import { ITheater } from 'src/app/core/models/theater';
 import { MovieService } from 'src/app/core/services/movie.service';
-import { TheatreService } from 'src/app/core/services/theatre.service';
+import { TheaterService } from 'src/app/core/services/theater.service';
 
 @Component({
   selector: 'ikub-schedules-create-update',
@@ -18,19 +17,13 @@ export class SchedulesCreateUpdateComponent implements OnInit {
 
   form!: FormGroup;
   movies$!: Observable<Array<IMovie>>;
-  theaters$!: Observable<Array<ITheatre>>;
+  theaters$!: Observable<Array<ITheater>>;
 
-  onSaveFn!: (formValue: {
-    movie: IMovie,
-    theater: ITheatre,
-    price: number,
-    date: Date,
-    time: Date
-  }) => void;
+  onSaveFn!: (formValue: ISchedule) => void;
 
   constructor(
     private movieService: MovieService,
-    private theaterService: TheatreService,
+    private theaterService: TheaterService,
     @Inject(MAT_DIALOG_DATA) public selectedSchedule: ISchedule | undefined | null
   ) { }
 
@@ -40,26 +33,25 @@ export class SchedulesCreateUpdateComponent implements OnInit {
     this.buildForm();
   }
 
-private buildForm(): void {
-  this.form = new FormGroup({
-    movie: new FormControl(this.selectedSchedule?.movie, Validators.required),
-    theater: new FormControl(this.selectedSchedule?.theater, Validators.required),
-    price: new FormControl(this.selectedSchedule?.price, Validators.required),
-    date: new FormControl(this.selectedSchedule?.dateTime, Validators.required),
-    time: new FormControl(this.selectedSchedule?.dateTime, Validators.required)
-  });
-}
+  private buildForm(): void {
+    this.form = new FormGroup({
+      movie: new FormControl(this.selectedSchedule?.movie, Validators.required),
+      theater: new FormControl(this.selectedSchedule?.theater, Validators.required),
+      price: new FormControl(this.selectedSchedule?.price, Validators.required),
+      date: new FormControl(this.selectedSchedule?.date, Validators.required),
+      time: new FormControl(this.selectedSchedule?.time, Validators.required)
+    });
+  }
 
-private loadMovielist(): void {
-  this.movies$ = this.movieService.getList();
-}
+  private loadMovielist(): void {
+    this.movies$ = this.movieService.getList();
+  }
 
-private loarTheaterList(): void {
-  this.theaters$ = this.theaterService.getList();
-}
+  private loarTheaterList(): void {
+    this.theaters$ = this.theaterService.getList();
+  }
 
-//public save(): void {
-//  console.log(this.form.value);
-//}
+  public compareWithIdForDropdownFn = (a: IMovie | ITheater, b: IMovie | ITheater): boolean => a?.id === b?.id;
 
+  // public compareWithObjectForDropdownFn = (a: IMovie | ITheater, b: IMovie | ITheater): boolean => a && b && JSON.stringify(a) === JSON.stringify(b);
 }

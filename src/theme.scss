@@ -12,4 +12,32 @@ $theme: mat-light-theme($primary, $accent, $warn);
     --mat-primary: #{mat-color($primary)};
     --mat-accent: #{mat-color($accent)};
     --mat-warn: #{mat-color($warn)};
+    --mat-success: #{mat-color(mat-palette($mat-green))};
+}
+.primary-background {
+    background-color: var(--mat-primary);
+}
+.accent-background {
+    background-color: var(--mat-accent);
+}
+.warn-background {
+    background-color: var(--mat-warn);
+}
+.success-background {
+    background-color: var(--mat-success);
+}
+.primary-color {
+    color: var(--mat-primary);
+}
+.accent-color {
+    color: var(--mat-accent);
+}
+.warn-color {
+    color: var(--mat-warn);
+}
+.success-color {
+    color: var(--mat-success);
+}
+.white-color {
+    color: white;
 }

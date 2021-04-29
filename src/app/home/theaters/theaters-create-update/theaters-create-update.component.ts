@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ITheatre } from 'src/app/core/models/theatre';
+import { ITheater } from 'src/app/core/models/theater';
 
 @Component({
   selector: 'ikub-theaters-create-update',
@@ -12,10 +12,10 @@ export class TheatersCreateUpdateComponent implements OnInit {
 
   form!: FormGroup;
   // To use at parent compnent
-  onSaveFn!: (formValue: {number: number, capacity: number}) => void;
+  onSaveFn!: (formValue: ITheater) => void;
 
   // To use at child componen, to check if form is new or edit
-  constructor(@Inject(MAT_DIALOG_DATA) public selectedTheater: ITheatre | undefined | null) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public selectedTheater: ITheater | undefined | null) { }
 
   ngOnInit(): void {
     this.buildForm();
@@ -27,9 +27,4 @@ export class TheatersCreateUpdateComponent implements OnInit {
       capacity: new FormControl(this.selectedTheater?.capacity, Validators.required)
     });
   }
-
-  // public save(): void {
-  //  console.log(this.form.value);
-  // }
-
 }

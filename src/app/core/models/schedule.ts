@@ -1,12 +1,12 @@
-import { Data } from '@angular/router';
 import { IMovie } from './movie';
-import { ITheatre } from './theatre';
+import { ITheater } from './theater';
 
 export interface ISchedule {
     id?: string;
-    createdAt?: Data;
+    createdAt?: Date;
     movie?: IMovie;
-    theater?: ITheatre;
+    theater?: ITheater;
     price?: number;
-    dateTime?: Data;
+    date?: Date;
+    time?: string;
 }

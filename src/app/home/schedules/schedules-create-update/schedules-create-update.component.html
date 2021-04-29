@@ -1,16 +1,16 @@
-<h1>{{ selectedSchedule ? 'Edit': 'New' }}Schedule</h1>
+<h1>{{ selectedSchedule ? 'Edit': 'New' }} Schedule</h1>
 <form class="row dialog-form" [formGroup]="form">
     <!--movie-->
     <mat-form-field appearance="fill" class="col-sm-12 col-md-6">
         <mat-label>Movie</mat-label>
-        <mat-select formControlName="movie">
+        <mat-select formControlName="movie" [compareWith]="compareWithIdForDropdownFn">
             <mat-option *ngFor="let movie of movies$ | async" [value]="movie">{{ movie.name }}</mat-option>
         </mat-select>
     </mat-form-field>
     <!--theater-->
     <mat-form-field appearance="fill" class="col-sm-12 col-md-6">
-        <mat-label>Category</mat-label>
-        <mat-select formControlName="theater">
+        <mat-label>Theater</mat-label>
+        <mat-select formControlName="theater" [compareWith]="compareWithIdForDropdownFn">
         <mat-option *ngFor="let theater of theaters$ | async" [value]="theater">{{ theater.number }}</mat-option>
         </mat-select>
     </mat-form-field>
@@ -33,8 +33,10 @@
         <input matInput formControlName="time" placeholder="Time" type="time">
     </mat-form-field>
 </form>
-<div class="d-flex justify-content-end">
-    <button mat-button color="warn" mat-dialog-close name="cancel">Cancel</button>
-    <button mat-button color="primary" [disabled]="form?.invalid" name="save" (click)="form.valid && onSaveFn && onSaveFn(form.value)">Save</button>
-    <button mat-button color="warn" mat-dialog-close name="delete">{{selectedSchedule ? 'Delete' : null}}</button>
+<div class="d-flex justify-content-between">
+    <button *ngIf="selectedSchedule" mat-button color="warn" mat-dialog-close name="delete">{{ 'Delete' }}</button>
+    <div>
+        <button mat-button mat-dialog-close name="cancel">Cancel</button>
+        <button mat-button color="primary" [disabled]="form?.invalid" name="save" (click)="form.valid && onSaveFn && onSaveFn(form.value)">Save</button>
+    </div>
 </div>

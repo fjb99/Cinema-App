@@ -17,16 +17,7 @@ export class MoviesCreateUpdateComponent implements OnInit {
   form!: FormGroup;
   categories$!: Observable<Array<ICategory>>;
 
-  onSaveFn!: (
-    formValue: {
-      name: string,
-      category: ICategory,
-      description: string,
-      rating: number,
-      imageUrl: string,
-      year: number
-    }
-  ) => void;
+  onSaveFn!: (formValue: IMovie) => void;
 
   constructor(
     private categoryService: CategoryService,
@@ -53,8 +44,4 @@ export class MoviesCreateUpdateComponent implements OnInit {
   private loadCategoryList(): void {
     this.categories$ = this.categoryService.getList();
   }
-
-  //public save(): void {
-  // console.log(this.form.value);
-  //}
 }

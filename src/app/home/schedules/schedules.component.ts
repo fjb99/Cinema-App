@@ -1,14 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
-import { IMovie } from 'src/app/core/models/movie';
 import { ISchedule } from 'src/app/core/models/schedule';
-import { ITheatre } from 'src/app/core/models/theatre';
+import { ITheater } from 'src/app/core/models/theater';
 import { ScheduleService } from 'src/app/core/services/schedule.service';
-import { TheatreService } from 'src/app/core/services/theatre.service';
+import { TheaterService } from 'src/app/core/services/theater.service';
 import { SchedulesCreateUpdateComponent } from './schedules-create-update/schedules-create-update.component';
 
 @Component({
@@ -20,14 +19,14 @@ export class SchedulesComponent implements OnInit, OnDestroy {
 
   // public schedules$!: Observable<Array<ISchedule>>;
   public schedules!: Array<ISchedule>;
-  public theaters$!: Observable<Array<ITheatre>>;
+  public theaters$!: Observable<Array<ITheater>>;
   public form!: FormGroup;
   private onComponentDestroy$: Subject<void> = new Subject<void>();
 
   constructor(
     private scheduleService: ScheduleService,
     private dialog: MatDialog,
-    private theaterService: TheatreService,
+    private theaterService: TheaterService,
     private matSnackBar: MatSnackBar
   ) { }
 
@@ -57,7 +56,7 @@ export class SchedulesComponent implements OnInit, OnDestroy {
       (response: Array<ISchedule>) => {
         this.schedules = response;
       }
-    )
+    );
     // this.schedules$ = this.scheduleService.getList();
   }
 
@@ -67,14 +66,8 @@ export class SchedulesComponent implements OnInit, OnDestroy {
   }
 
   public createSchedule(): void {
-    //this.dialog.open(SchedulesCreateUpdateComponent);
     const dialogRef: MatDialogRef<SchedulesCreateUpdateComponent> = this.dialog.open(SchedulesCreateUpdateComponent);
-    dialogRef.componentInstance.onSaveFn = (formValue: {
-      movie: IMovie,
-      theater: ITheatre,
-      price: number,
-      date: Date,
-      time: Date }) => {
+    dialogRef.componentInstance.onSaveFn = (formValue: ISchedule) => {
       this.scheduleService.create(formValue).pipe(
         take(1),
         takeUntil(this.onComponentDestroy$)
@@ -89,7 +82,21 @@ export class SchedulesComponent implements OnInit, OnDestroy {
     };
   }
 
-  openDetails(schedue: ISchedule): void {
-    //this.dialog.open(SchedulesCreateUpdateComponent);
+  public updateSchedule(schedule: ISchedule, index: number): void {
+    const dialogRef: MatDialogRef<SchedulesCreateUpdateComponent> = this.dialog.open(SchedulesCreateUpdateComponent, { data: schedule });
+    dialogRef.componentInstance.onSaveFn = (formValue: ISchedule) => {
+      this.scheduleService.update({ ...schedule, ...formValue }).pipe(
+        take(1),
+        takeUntil(this.onComponentDestroy$)
+      ).subscribe(
+        (response: ISchedule) => {
+          dialogRef.close();
+          this.schedules[index] = response;
+          this.schedules = [ ...this.schedules ]; // To trigger table update by re-assigning the schedules array that we pass as "dataSource" to the material table
+          this.matSnackBar.open(`Schedule for "${response.movie?.name}" movie updated successfully!`);
+        },
+        () => this.matSnackBar.open(`There was an error updating schedule for movie "${formValue.movie?.name}"!`)
+      );
+    };
   }
 }

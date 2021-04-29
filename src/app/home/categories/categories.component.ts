@@ -1,3 +1,4 @@
+import { identifierModuleUrl } from '@angular/compiler';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -59,7 +60,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 
   public updateCategory(category: ICategory, index: number): void {
     const dialogRef: MatDialogRef<CategoriesCreateUpdateComponent> = this.dialog.open(CategoriesCreateUpdateComponent, { data: category });
-    dialogRef.componentInstance.onSaveFn = (formValue: { name: string }) => {
+    dialogRef.componentInstance.onSaveFn = (formValue: { name: string }) => { // Rishikojme
       this.categoryService.update({ ...category, ...formValue }).pipe(
         take(1),
         takeUntil(this.onComponentDestroy$)
@@ -75,6 +76,16 @@ export class CategoriesComponent implements OnInit, OnDestroy {
   }
 
   public deleteCategory(category: ICategory): void {
-    // TODO
+    if( category.id ) {
+      this.categoryService.delete(category.id).pipe(
+        take(1),
+        takeUntil(this.onComponentDestroy$)
+      ).subscribe(
+        () => {
+          this.categories = this.categories.filter(currentCategory => currentCategory.id !== category.id);
+          this.matSnackBar.open(`Category "${category.name}" has been deleted!`);
+        }
+      )
+    }
   }
 }

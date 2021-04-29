@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { Form, FormControl, FormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { Observable } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Observable, Subject } from 'rxjs';
+import { take, takeUntil } from 'rxjs/operators';
 import { ICategory } from 'src/app/core/models/category';
 import { IMovie } from 'src/app/core/models/movie';
 import { CategoryService } from 'src/app/core/services/category.service';
@@ -13,15 +15,19 @@ import { MoviesCreateUpdateComponent } from './movies-create-update/movies-creat
   templateUrl: './movies.component.html',
   styleUrls: ['./movies.component.scss']
 })
-export class MoviesComponent implements OnInit {
+export class MoviesComponent implements OnInit, OnDestroy{
 
-  public movies$!: Observable<Array<IMovie>>;
+  private onComponentDestroy$: Subject<void> = new Subject<void>();
+  public movies!: Array<IMovie>;
+  // public movie$!: Observable<Array<IMovie>>;
   public categories$!: Observable<Array<ICategory>>;
   public form!: FormGroup;
+
   constructor(
     private movieService: MovieService,
     private categoryService: CategoryService,
-    private dialog: MatDialog) { }
+    private dialog: MatDialog,
+    private matSnackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.loadMovies();
@@ -36,16 +42,95 @@ export class MoviesComponent implements OnInit {
     });
   }
 
+  ngOnDestroy(): void {
+    this.onComponentDestroy$.next();
+    this.onComponentDestroy$.complete();
+  }
+
   public loadMovies(): void {
-    this.movies$ = this.movieService.getList();
+    this.movieService.getList().pipe(
+      take(1),
+      takeUntil(this.onComponentDestroy$)
+    ).subscribe((response: Array<IMovie>) => this.movies = response );
+    // this.movie$ = this.movieService.getList();
   }
 
   public loadCategoryList(): void {
     this.categories$ = this.categoryService.getList();
   }
 
-  public add(): void {
-    this.dialog.open(MoviesCreateUpdateComponent);
+  public deletemovie(): void {
+
+  }
+
+  public createMovie(): void {
+    const dialogRef: MatDialogRef<MoviesCreateUpdateComponent> = this.dialog.open(MoviesCreateUpdateComponent);
+    dialogRef.componentInstance.onSaveFn = (
+      formValue: {
+        name: string,
+        category: ICategory,
+        description: string,
+        rating: number,
+        imageUrl: string,
+        year: number
+      }
+    ) => {
+      this.movieService.create(formValue).pipe(
+        take(1),
+        takeUntil(this.onComponentDestroy$)
+      ).subscribe(
+        (response: IMovie) => {
+          dialogRef.close();
+          this.movies.push(response);
+          this.matSnackBar.open(`Movie "${response.name}" created successfully!`);
+        },
+        (error) => {
+          this.matSnackBar.open(`There was an error creating category "${formValue.name}"!`);
+        }
+      );
+    };
+    // this.dialog.open(MoviesCreateUpdateComponent);
+  }
+
+  public updateMovie(movie: IMovie, index: number): void {
+    const dialogRef: MatDialogRef<MoviesCreateUpdateComponent> = this.dialog.open(MoviesCreateUpdateComponent, {data: movie});
+    dialogRef.componentInstance.onSaveFn = (formValue: {
+        name: string,
+        category: ICategory,
+        description: string,
+        rating: number,
+        imageUrl: string,
+        year: number
+    }) => {
+      this.movieService.update({...movie, ...formValue}).pipe(
+        take(1),
+        takeUntil(this.onComponentDestroy$)
+      ).subscribe(
+        (response: IMovie) => {
+          this.movies[index] = response;
+          dialogRef.close();
+          // this.matSnackBar.open(`Movie "${movie.name}" updated to "${response.name}"`);
+          this.matSnackBar.open(`Movie "${movie.name}" has been updated`);
+        },
+        (error) => {
+          this.matSnackBar.open(`There was an error updating "${movie.name}" to ${formValue.name}`);
+        }
+      )
+    };
+  }
+
+  public deleteMovie(movie: IMovie): void {
+    if( movie.id ) {
+      this.movieService.delete(movie.id).pipe(
+        take(1),
+        takeUntil(this.onComponentDestroy$)
+      ).subscribe(
+        () => {
+          this.movies = this.movies.filter(currentmovie => currentmovie.id !== movie.id);
+          this.matSnackBar.open(`Movie "${movie.name}" has been deleted!`);
+        }
+      )
+    }
   }
 
 }

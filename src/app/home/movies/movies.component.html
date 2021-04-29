@@ -21,7 +21,7 @@
   </div>
 </div>
 <div class="row px-2 pb-2">
-  <div *ngFor="let movie of movies$ | async" class="col-sm-12 col-md-6 col-lg-4 col-xl-3 px-2 pb-3">
+  <div *ngFor="let movie of movies; index as i" class="col-sm-12 col-md-6 col-lg-4 col-xl-3 px-2 pb-3">
     <mat-card class="w-auto">
       <mat-card-title class="mb-4">{{ movie.name }} ({{ movie.year }})</mat-card-title>
       <mat-card-subtitle>Created: {{ movie.createdAt | date: 'dd/MM/YYYY' }}</mat-card-subtitle>
@@ -30,12 +30,12 @@
       <div class="mb-2">Description: {{ movie.description }}</div>
       <div>Rating: {{ movie.rating }}</div>
       <mat-card-actions class="d-flex">
-        <button mat-button color="primary" name="edit">Edit</button>
-        <button mat-button color="warn" name="delete">Delete</button>
+        <button mat-button color="primary" name="edit" (click)="updateMovie(movie, i)">Edit</button>
+        <button mat-button color="warn" name="delete" (click)="deleteMovie(movie)">Delete</button>
       </mat-card-actions>
     </mat-card>
   </div>
 </div>
-<button mat-fab  (click)="add()">
+<button mat-fab  (click)="createMovie()">
   <mat-icon>add</mat-icon>
 </button>

@@ -1,4 +1,4 @@
-<h1>New Schedule</h1>
+<h1>{{ selectedSchedule ? 'Edit': 'New' }}Schedule</h1>
 <form class="row dialog-form" [formGroup]="form">
     <!--movie-->
     <mat-form-field appearance="fill" class="col-sm-12 col-md-6">
@@ -35,5 +35,6 @@
 </form>
 <div class="d-flex justify-content-end">
     <button mat-button color="warn" mat-dialog-close name="cancel">Cancel</button>
-    <button mat-button color="primary" [disabled]="form?.invalid" name="save" (click)="save()">Save</button>
-  </div>
+    <button mat-button color="primary" [disabled]="form?.invalid" name="save" (click)="form.valid && onSaveFn && onSaveFn(form.value)">Save</button>
+    <button mat-button color="warn" mat-dialog-close name="delete">{{selectedSchedule ? 'Delete' : null}}</button>
+</div>

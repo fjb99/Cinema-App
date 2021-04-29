@@ -1,4 +1,4 @@
-<h1>New Movie</h1>
+<h1>{{ selectedMovie ? 'Edit' : 'New' }} Movie</h1>
 <form class="row dialog-form" [formGroup]="form">
   <mat-form-field appearance="fill" class="col-sm-12 col-md-6">
     <mat-label>Name</mat-label>
@@ -29,5 +29,5 @@
 </form>
 <div class="d-flex justify-content-end">
   <button mat-button color="warn" mat-dialog-close name="cancel">Cancel</button>
-  <button mat-button color="primary" [disabled]="form?.invalid" name="save" (click)="save()">Save</button>
+  <button mat-button color="primary" [disabled]="form?.invalid" name="save" (click)="form.valid && onSaveFn && onSaveFn(form.value)">Save</button>
 </div>

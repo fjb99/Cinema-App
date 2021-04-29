@@ -15,7 +15,7 @@ export class ScheduleService {
     return this.httpClient.get<Array<ISchedule>>(`${environment.apiUrl}/schedules`);
   }
 
-  public getById(id: number): Observable<ISchedule> {
+  public getById(id: string): Observable<ISchedule> {
     return this.httpClient.get<ISchedule>(`${environment.apiUrl}/schedules/${id}`);
   }
 
@@ -27,7 +27,7 @@ export class ScheduleService {
     return this.httpClient.put<ISchedule>(`${environment.apiUrl}/schedules/${request.id}`, request);
   }
 
-  public delete(id: ISchedule): Observable<ISchedule> {
+  public delete(id: string): Observable<ISchedule> {
     return this.httpClient.delete<ISchedule>(`${environment.apiUrl}/schedules/${id}`);
   }
 

@@ -14,7 +14,7 @@ export class CategoryService {
     return this.httpClient.get<Array<ICategory>>(`${environment.apiUrl}/categories`);
   }
 
-  public getById(id: number): Observable<ICategory> {
+  public getById(id: string): Observable<ICategory> {
     return this.httpClient.get<ICategory>(`${environment.apiUrl}/categories/${id}`);
   }
 
@@ -26,7 +26,7 @@ export class CategoryService {
     return this.httpClient.put<ICategory>(`${environment.apiUrl}/categories/${request.id}`, request);
   }
 
-  public delete(id: number): Observable<ICategory> {
+  public delete(id: string): Observable<ICategory> {
     return this.httpClient.delete<ICategory>(`${environment.apiUrl}/categories/${id}`);
   }
 }

@@ -1,16 +1,16 @@
 <div class="row px-2 pb-2">
-  <div *ngFor="let theater of theaters$ | async" class="col-sm-6 col-md-4 col-lg-3 col-xl-2 px-2 pb-3">
+  <div *ngFor="let theater of theaters; index as i;" class="col-sm-6 col-md-4 col-lg-3 col-xl-2 px-2 pb-3">
     <mat-card class="w-auto">
       <mat-card-title class="mb-4">#{{ theater.number }}</mat-card-title>
       <mat-card-subtitle>Created: {{ theater.createdAt | date: 'dd/MM/YYYY' }}</mat-card-subtitle>
       <div>Capacity: {{ theater.capacity }}</div>
       <mat-card-actions class="d-flex">
-        <button  mat-button color="primary" name="save">Edit</button>
-        <button mat-button color="warn" mat-dialog-close name="cancel">Delete</button>
+        <button  mat-button color="primary" name="edit" (click)="updateTheater(theater, i)">Edit</button>
+        <button mat-button color="warn" name="delete" (click)="deleteTheater(theater)">Delete</button>
       </mat-card-actions>
     </mat-card>
   </div>
 </div>
-<button mat-fab (click)="add()">
+<button mat-fab (click)="createTheater()">
   <mat-icon>add</mat-icon>
 </button>

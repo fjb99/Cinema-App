@@ -6,7 +6,7 @@ export interface IMovie {
     category?: ICategory;
     description?: string;
     imageUrl?: string;
-    rating?: string;
+    rating?: number;
     createdAt?: Date;
     year?: number;
 }

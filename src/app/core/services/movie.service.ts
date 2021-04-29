@@ -12,23 +12,23 @@ export class MovieService {
   constructor(private httpClient: HttpClient) { }
 
   public getList(): Observable<Array<IMovie>> {
-    //do kerkoje nga get te marre arrayn e e movies
+    // do kerkoje nga get te marre arrayn e e movies
     return this.httpClient.get<Array<IMovie>>(`${environment.apiUrl}/movies`);
   }
 
   public getById(id: number): Observable<IMovie> {
-    return this.httpClient.get<IMovie>(`${environment.apiUrl}/movies/${id}`); 
+    return this.httpClient.get<IMovie>(`${environment.apiUrl}/movies/${id}`);
   }
 
   public create(request: IMovie): Observable<IMovie> {
-    return this.httpClient.post<IMovie>(`${environment.apiUrl}/movies`, request); 
+    return this.httpClient.post<IMovie>(`${environment.apiUrl}/movies`, request);
   }
 
   public update(request: IMovie): Observable<IMovie> {
     return this.httpClient.put<IMovie>(`${environment.apiUrl}/movies/${request.id}`, request);
   }
 
-  public delete(id: number): Observable<IMovie> {
+  public delete(id: string): Observable<IMovie> {
     return this.httpClient.delete<IMovie>(`${environment.apiUrl}/movies/${id}`);
   }
 

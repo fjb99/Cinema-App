@@ -1,4 +1,4 @@
-<h1>New Theater</h1>
+<h1>{{ selectedTheater ? 'Edit' : 'New' }} Theater</h1>
 <form class="row" [formGroup]="form">
     <mat-form-field appearance="fill" class="col-sm-6">
         <mat-label>Theater number</mat-label>
@@ -11,5 +11,5 @@
 </form>
 <div class="d-flex justify-content-end">
     <button mat-button color="warn" mat-dialog-close name="cancel">Cancel</button>
-    <button mat-button color="primary" [disabled]="form?.invalid" (click)="save()" name="save">Save</button>
+    <button mat-button color="primary" [disabled]="form?.invalid" (click)="form.valid && onSaveFn && onSaveFn(form.value)" name="save">Save</button>
 </div>

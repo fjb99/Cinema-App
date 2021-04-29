@@ -21,7 +21,7 @@
   </div>
 </div>
 
-<ng-container *ngIf="schedules$ | async as schedules">
+<ng-container *ngIf="schedules as schedules">
   <table mat-table [dataSource]="schedules" class="mat-elevation-z8">
     <!-- Movie Column -->
     <ng-container matColumnDef="movie">
@@ -59,10 +59,10 @@
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="['movie', 'theater', 'date', 'time', 'price', 'createdAt']"></tr>
-    <tr mat-row *matRowDef="let row; columns: ['movie', 'theater', 'date', 'time', 'price', 'createdAt'];"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['movie', 'theater', 'date', 'time', 'price', 'createdAt'];" (click)="openDetails(row)"></tr>
   </table>
 </ng-container>
 
-<button mat-fab (click)="add()">
+<button mat-fab (click)="createSchedule()">
   <mat-icon>add</mat-icon>
 </button>

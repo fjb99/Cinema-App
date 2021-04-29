@@ -6,10 +6,22 @@
   margin-right: 8px;
 }
 
-.active {
-  color: var(--mat-warn);
-}
-
 .mat-drawer {
   width: 200px;
+}
+.sidenav {
+  .mat-toolbar {
+    background-color: inherit;
+    color: rgba(0, 0, 0, .8);
+  }
+  .mat-nav-list .mat-list-item {
+    color: #444;
+    line-height: 1px; // Fix visual bug
+    &.active {
+      color: var(--mat-warn);
+    }
+    .mat-icon {
+      margin-right: 12px;
+    }
+  }
 }

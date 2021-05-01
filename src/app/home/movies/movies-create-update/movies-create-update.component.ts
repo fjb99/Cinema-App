@@ -44,4 +44,6 @@ export class MoviesCreateUpdateComponent implements OnInit {
   private loadCategoryList(): void {
     this.categories$ = this.categoryService.getList();
   }
+
+  public compareWithIdForDropdownFn = (a: ICategory, b: ICategory): boolean => a?.id === b?.id;
 }

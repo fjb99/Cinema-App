@@ -5,6 +5,7 @@ import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { ICategory } from 'src/app/core/models/category';
 import { CategoryService } from 'src/app/core/services/category.service';
+import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
 import { CategoriesCreateUpdateComponent } from './categories-create-update/categories-create-update.component';
 
 @Component({
@@ -76,15 +77,20 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 
   public deleteCategory(category: ICategory): void {
     if (category.id) {
-      this.categoryService.delete(category.id).pipe(
-        take(1),
-        takeUntil(this.onComponentDestroy$)
-      ).subscribe(
-        () => {
-          this.categories = this.categories.filter(currentCategory => currentCategory.id !== category.id);
-          this.matSnackBar.open(`Category "${category.name}" has been deleted!`);
-        }
-      );
+      const dialogRef: MatDialogRef<ConfirmDialogComponent> = this.dialog.open(ConfirmDialogComponent, {data: `Are u shure u want to delete "${category.name}"`});
+      dialogRef.componentInstance.onConfirmFn = () => {
+        this.categoryService.delete(category.id).pipe(
+          take(1),
+          takeUntil(this.onComponentDestroy$)
+        ).subscribe(
+          () => {
+            this.categories = this.categories.filter(currentCategory => currentCategory.id !== category.id);
+            this.matSnackBar.open(`Category "${category.name}" has been deleted!`);
+          }
+        );
+      }
     }
   }
+
+
 }

@@ -6,7 +6,7 @@
   </mat-form-field>
   <mat-form-field appearance="fill" class="col-sm-12 col-md-6">
     <mat-label>Category</mat-label>
-    <mat-select formControlName="category">
+    <mat-select formControlName="category" [compareWith]="compareWithIdForDropdownFn">
       <mat-option *ngFor="let category of categories$ | async" [value]="category">{{ category.name }}</mat-option>
     </mat-select>
   </mat-form-field>

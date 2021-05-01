@@ -14,12 +14,12 @@ import { TheaterService } from 'src/app/core/services/theater.service';
   styleUrls: ['./schedules-create-update.component.scss']
 })
 export class SchedulesCreateUpdateComponent implements OnInit {
-
   form!: FormGroup;
   movies$!: Observable<Array<IMovie>>;
   theaters$!: Observable<Array<ITheater>>;
 
   onSaveFn!: (formValue: ISchedule) => void;
+  onDeleteRequestedFn!: () => void;
 
   constructor(
     private movieService: MovieService,

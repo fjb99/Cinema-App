@@ -33,8 +33,8 @@
         <input matInput formControlName="time" placeholder="Time" type="time">
     </mat-form-field>
 </form>
-<div class="d-flex justify-content-between">
-    <button *ngIf="selectedSchedule" mat-button color="warn" mat-dialog-close name="delete">{{ 'Delete' }}</button>
+<div class="d-flex" [class.justify-content-between]="selectedSchedule" [class.justify-content-end]="!selectedSchedule">
+    <button *ngIf="selectedSchedule" mat-button color="warn" mat-dialog-close name="delete" (click)="onDeleteRequestedFn && onDeleteRequestedFn()">{{ 'Delete' }}</button>
     <div>
         <button mat-button mat-dialog-close name="cancel">Cancel</button>
         <button mat-button color="primary" [disabled]="form?.invalid" name="save" (click)="form.valid && onSaveFn && onSaveFn(form.value)">Save</button>

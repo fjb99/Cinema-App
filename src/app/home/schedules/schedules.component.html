@@ -60,7 +60,7 @@
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="['movie', 'theater', 'date', 'time', 'price', 'createdAt']"></tr>
-    <tr mat-row *matRowDef="let row; columns: ['movie', 'theater', 'date', 'time', 'price', 'createdAt']; index as i" (click)="updateSchedule(row, i)"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['movie', 'theater', 'date', 'time', 'price', 'createdAt']; index as i" (click)="updateOrDeleteSchedule(row, i)"></tr>
   </table>
 </ng-container>
 

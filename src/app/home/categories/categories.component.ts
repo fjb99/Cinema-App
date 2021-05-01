@@ -76,7 +76,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
   }
 
   public deleteCategory(category: ICategory): void {
-    const dialogRef: MatDialogRef<ConfirmDialogComponent> = this.dialog.open(ConfirmDialogComponent, {data: `Are u sure u want to delete "${category.name}"`});
+    const dialogRef: MatDialogRef<ConfirmDialogComponent> = this.dialog.open(ConfirmDialogComponent, { data: `Are u sure u want to delete "${category.name}?"`, role: 'alertdialog' });
     // dialogRef.componentInstance.onCancelFn = () => {
     //   this.matSnackBar.open('You cancelled');
     // };
@@ -89,7 +89,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
           () => {
             dialogRef.close();
             this.categories = this.categories.filter(currentCategory => currentCategory.id !== category.id);
-            this.matSnackBar.open(`Category "${category.name}" has been deleted!`);
+            this.matSnackBar.open(`Category "${category.name}" has been deleted successfully!`);
           },
           () => this.matSnackBar.open(`There was an error deleting category "${category.name}!`)
         );

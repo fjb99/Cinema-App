@@ -8,6 +8,7 @@ import { ISchedule } from 'src/app/core/models/schedule';
 import { ITheater } from 'src/app/core/models/theater';
 import { ScheduleService } from 'src/app/core/services/schedule.service';
 import { TheaterService } from 'src/app/core/services/theater.service';
+import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
 import { SchedulesCreateUpdateComponent } from './schedules-create-update/schedules-create-update.component';
 
 @Component({
@@ -75,15 +76,15 @@ export class SchedulesComponent implements OnInit, OnDestroy {
         (response: ISchedule) => {
           dialogRef.close();
           this.schedules.push(response);
-          this.matSnackBar.open(`Schedule for "${response.movie}" movie created successfully!`);
+          this.matSnackBar.open(`Schedule for "${response.movie?.name}" movie created successfully!`);
         },
-        () => this.matSnackBar.open(`There was an error creating schedule for movie "${formValue.movie}"!`)
+        () => this.matSnackBar.open(`There was an error creating schedule for movie "${formValue.movie?.name}"!`)
       );
     };
   }
 
-  public updateSchedule(schedule: ISchedule, index: number): void {
-    const dialogRef: MatDialogRef<SchedulesCreateUpdateComponent> = this.dialog.open(SchedulesCreateUpdateComponent, { data: schedule });
+  public updateOrDeleteSchedule(schedule: ISchedule, index: number): void {
+    const dialogRef: MatDialogRef<SchedulesCreateUpdateComponent> = this.dialog.open(SchedulesCreateUpdateComponent, { data: schedule, role: 'dialog' });
     dialogRef.componentInstance.onSaveFn = (formValue: ISchedule) => {
       this.scheduleService.update({ ...schedule, ...formValue }).pipe(
         take(1),
@@ -97,6 +98,28 @@ export class SchedulesComponent implements OnInit, OnDestroy {
         },
         () => this.matSnackBar.open(`There was an error updating schedule for movie "${formValue.movie?.name}"!`)
       );
+    };
+    dialogRef.componentInstance.onDeleteRequestedFn = () => {
+      const confirmDialogRef: MatDialogRef<ConfirmDialogComponent> = this.dialog.open(ConfirmDialogComponent, { data: `Are u sure u want to delete schedule for movie "${schedule.movie?.name}?"`, role: 'alertdialog' });
+      confirmDialogRef.componentInstance.onConfirmFn = () => {
+        if (schedule.id) {
+          this.scheduleService.delete(schedule.id).pipe(
+            take(1),
+            takeUntil(this.onComponentDestroy$)
+          ).subscribe(
+            () => {
+              confirmDialogRef.close();
+              dialogRef.close();
+              this.schedules = this.schedules.filter(currentSchedule => currentSchedule.id !== schedule.id);
+              this.matSnackBar.open(`Schedule for movie "${schedule.movie?.name}" has been deleted successfully!`);
+            },
+            () => this.matSnackBar.open(`There was an error deleting schedule for movie "${schedule.movie?.name}!`)
+          );
+        } else {
+          confirmDialogRef.close();
+          dialogRef.close();
+        }
+      };
     };
   }
 }

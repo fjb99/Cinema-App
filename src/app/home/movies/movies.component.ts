@@ -8,6 +8,7 @@ import { ICategory } from 'src/app/core/models/category';
 import { IMovie } from 'src/app/core/models/movie';
 import { CategoryService } from 'src/app/core/services/category.service';
 import { MovieService } from 'src/app/core/services/movie.service';
+import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
 import { MoviesCreateUpdateComponent } from './movies-create-update/movies-create-update.component';
 
 @Component({
@@ -102,17 +103,20 @@ export class MoviesComponent implements OnInit, OnDestroy{
   }
 
   public deleteMovie(movie: IMovie): void {
-    if (movie.id) {
-      this.movieService.delete(movie.id).pipe(
-        take(1),
-        takeUntil(this.onComponentDestroy$)
-      ).subscribe(
-        () => {
-          this.movies = this.movies.filter(currentmovie => currentmovie.id !== movie.id);
-          this.matSnackBar.open(`Movie "${movie.name}" has been deleted successfully!`);
-        }
-      );
-    }
+    const dialogRef: MatDialogRef<ConfirmDialogComponent> = this.dialog.open(ConfirmDialogComponent, {data: `Are you sure you want to delete movie "${movie.name}"?`, role: 'alertdialog'});
+    dialogRef.componentInstance.onConfirmFn = () => {
+      if (movie.id) {
+        this.movieService.delete(movie.id).pipe(
+          take(1),
+          takeUntil(this.onComponentDestroy$)
+        ).subscribe(
+          () => {
+            this.movies = this.movies.filter(currentmovie => currentmovie.id !== movie.id);
+            this.matSnackBar.open(`Movie "${movie.name}" has been deleted successfully!`);
+          }
+        );
+      }
+    };
   }
 
 }

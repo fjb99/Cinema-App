@@ -6,6 +6,7 @@ import { take, takeUntil } from 'rxjs/operators';
 import { ICategory } from 'src/app/core/models/category';
 import { ITheater } from 'src/app/core/models/theater';
 import { TheaterService } from 'src/app/core/services/theater.service';
+import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
 import { TheatersCreateUpdateComponent } from './theaters-create-update/theaters-create-update.component';
 
 @Component({
@@ -88,16 +89,20 @@ export class TheatersComponent implements OnInit, OnDestroy {
   }
 
   public deleteTheater(theater: ITheater): void {
-    if (theater.id) {
-      this.theaterService.delete(theater.id).pipe(
-        take(1),
-        takeUntil(this.onComponentDestroy$)
-      ).subscribe(
-        () => {
-          this.theaters = this.theaters.filter(currenttheater => currenttheater.id !== theater.id);
-          this.matSnackBar.open(`theater "${theater.number}" has been deleted!`);
-        }
-      );
-    }
+    const dialogRef: MatDialogRef<ConfirmDialogComponent> = this.dialog.open(ConfirmDialogComponent, {data: `Are you sure you want to delete theater "${theater.number}"?`, role: 'alertdialog'});
+    dialogRef.componentInstance.onConfirmFn = () => {
+      if (theater.id) {
+        this.theaterService.delete(theater.id).pipe(
+          take(1),
+          takeUntil(this.onComponentDestroy$)
+        ).subscribe(
+          () => {
+            this.theaters = this.theaters.filter(currenttheater => currenttheater.id !== theater.id);
+            this.matSnackBar.open(`theater "${theater.number}" has been deleted!`);
+          }
+        );
+      }
+    };
   }
+
 }

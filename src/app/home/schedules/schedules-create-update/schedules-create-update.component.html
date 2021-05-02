@@ -6,6 +6,7 @@
         <mat-select formControlName="movie" [compareWith]="compareWithIdForDropdownFn">
             <mat-option *ngFor="let movie of movies$ | async" [value]="movie">{{ movie.name }}</mat-option>
         </mat-select>
+        <mat-error *ngIf="form.get('movie')?.hasError('required')"><span class="font-weight-bold">Movie</span> is required!</mat-error>
     </mat-form-field>
     <!--theater-->
     <mat-form-field appearance="fill" class="col-sm-12 col-md-6">
@@ -13,6 +14,7 @@
         <mat-select formControlName="theater" [compareWith]="compareWithIdForDropdownFn">
         <mat-option *ngFor="let theater of theaters$ | async" [value]="theater">{{ theater.number }}</mat-option>
         </mat-select>
+        <mat-error *ngIf="form.get('theater')?.hasError('required')"><span class="font-weight-bold">Theater</span> is required!</mat-error>
     </mat-form-field>
     <!--price-->
     <mat-form-field appearance="fill" class="col-sm-12 col-md-4">
@@ -20,6 +22,7 @@
         <input matInput type="number" class="example-right-align" formControlName="price">
         <span matPrefix>$&nbsp;</span>
         <span matSuffix>.00</span>
+        <mat-error *ngIf="form.get('price')?.hasError('required')"><span class="font-weight-bold">Price</span> is required!</mat-error>
     </mat-form-field>
     <!--date-->
     <mat-form-field appearance="fill" class="col-sm-12 col-md-4">
@@ -27,10 +30,12 @@
         <input matInput [matDatepicker]="picker" formControlName="date">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
+        <mat-error *ngIf="form.get('date')?.hasError('required')"><span class="font-weight-bold">Date</span> is required!</mat-error>
     </mat-form-field>
     <!--time-->
     <mat-form-field appearance="fill" class="col-sm-12 col-md-4">
         <input matInput formControlName="time" placeholder="Time" type="time">
+        <mat-error *ngIf="form.get('time')?.hasError('required')"><span class="font-weight-bold">Time</span> is required!</mat-error>
     </mat-form-field>
 </form>
 <div class="d-flex" [class.justify-content-between]="selectedSchedule" [class.justify-content-end]="!selectedSchedule">

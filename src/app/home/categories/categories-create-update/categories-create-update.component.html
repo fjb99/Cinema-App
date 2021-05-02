@@ -3,6 +3,7 @@
     <mat-form-field appearance="fill">
         <mat-label>Category</mat-label>
         <input matInput formControlName="name">
+        <mat-error *ngIf="form.get('name')?.hasError('required')"><span class="font-weight-bold">Name</span> is required!</mat-error>
     </mat-form-field>
 </form>
 <div class="d-flex justify-content-end">

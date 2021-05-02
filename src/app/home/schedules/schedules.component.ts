@@ -19,6 +19,7 @@ import { SchedulesCreateUpdateComponent } from './schedules-create-update/schedu
 export class SchedulesComponent implements OnInit, OnDestroy {
 
   // public schedules$!: Observable<Array<ISchedule>>;
+  public allSchedules!: Array<ISchedule>;
   public schedules!: Array<ISchedule>;
   public theaters$!: Observable<Array<ITheater>>;
   public form!: FormGroup;
@@ -55,6 +56,7 @@ export class SchedulesComponent implements OnInit, OnDestroy {
       takeUntil(this.onComponentDestroy$)
     ).subscribe(
       (response: Array<ISchedule>) => {
+        this.allSchedules = response;
         this.schedules = response;
       }
     );
@@ -64,6 +66,22 @@ export class SchedulesComponent implements OnInit, OnDestroy {
 
   public loadTheaterList(): void {
     this.theaters$ = this.theaterService.getList();
+  }
+
+  public search(): void {
+    const movieName: string | null | undefined = this.form.get('movieName')?.value;
+    const theater: ITheater | null | undefined = this.form.get('theater')?.value;
+    this.schedules = this.allSchedules?.filter((schedule: ISchedule) => {
+      let movieNameMatches = true;
+      if (movieName?.trim()?.length) {
+        movieNameMatches = !!schedule.movie?.name?.toLowerCase()?.includes(movieName.trim().toLowerCase());
+      }
+      let theaterMatches = true;
+      if (theater) {
+        theaterMatches = schedule.theater?.number === theater.number;
+      }
+      return movieNameMatches && theaterMatches;
+    });
   }
 
   public createSchedule(): void {

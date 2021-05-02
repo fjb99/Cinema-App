@@ -10,9 +10,10 @@
     </mat-card>
   </div>
 </div>
+<div *ngIf="isLoading">Loading</div>
 <div class="d-flex align-items-end flex-column  ">
   <div class="p-2">
-    <button mat-fab (click)="createCategory()">
+    <button mat-fab [disabled]="isLoading" (click)="createCategory()">
       <mat-icon>add</mat-icon>
     </button>
   </div>

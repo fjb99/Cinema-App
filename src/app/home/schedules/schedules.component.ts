@@ -100,7 +100,7 @@ export class SchedulesComponent implements OnInit, OnDestroy {
       );
     };
     dialogRef.componentInstance.onDeleteRequestedFn = () => {
-      const confirmDialogRef: MatDialogRef<ConfirmDialogComponent> = this.dialog.open(ConfirmDialogComponent, { data: `Are u sure u want to delete schedule for movie "${schedule.movie?.name}?"`, role: 'alertdialog' });
+      const confirmDialogRef: MatDialogRef<ConfirmDialogComponent> = this.dialog.open(ConfirmDialogComponent, { data: `Are you sure you want to delete schedule for movie "${schedule.movie?.name}?"`, role: 'alertdialog' });
       confirmDialogRef.componentInstance.onConfirmFn = () => {
         if (schedule.id) {
           this.scheduleService.delete(schedule.id).pipe(

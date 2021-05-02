@@ -97,10 +97,13 @@ export class TheatersComponent implements OnInit, OnDestroy {
           takeUntil(this.onComponentDestroy$)
         ).subscribe(
           () => {
+            dialogRef.close();
             this.theaters = this.theaters.filter(currenttheater => currenttheater.id !== theater.id);
-            this.matSnackBar.open(`theater "${theater.number}" has been deleted!`);
+            this.matSnackBar.open(`Theater "${theater.number}" has been deleted!`);
           }
         );
+      } else {
+        dialogRef.close();
       }
     };
   }

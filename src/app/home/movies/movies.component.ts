@@ -111,10 +111,13 @@ export class MoviesComponent implements OnInit, OnDestroy{
           takeUntil(this.onComponentDestroy$)
         ).subscribe(
           () => {
+            dialogRef.close();
             this.movies = this.movies.filter(currentmovie => currentmovie.id !== movie.id);
             this.matSnackBar.open(`Movie "${movie.name}" has been deleted successfully!`);
           }
         );
+      } else {
+        dialogRef.close();
       }
     };
   }

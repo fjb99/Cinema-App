@@ -91,7 +91,7 @@ export class SchedulesComponent implements OnInit, OnDestroy {
   public createSchedule(): void {
     const dialogRef: MatDialogRef<SchedulesCreateUpdateComponent> = this.dialog.open(SchedulesCreateUpdateComponent);
     dialogRef.componentInstance.onSaveFn = (formValue: ISchedule) => {
-      //if(this.allSchedules?.find((schedule: ISchedule) => schedule.movie?.toString().trim() === formValue.movie?.toString().trim())){
+      //if (this.allSchedules?.find((schedule: ISchedule) => schedule.movie?.toString().trim() === formValue.movie?.toString().trim())) {
       //  this.matSnackBar.open(`Theater with name "${formValue.movie}" already exists!`, 'Dismiss', {duration: 0, panelClass: ['warn-background', 'white-color']});
       //} else {
         this.scheduleService.create(formValue).pipe(

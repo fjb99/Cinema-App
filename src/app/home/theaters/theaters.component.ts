@@ -60,7 +60,7 @@ export class TheatersComponent implements OnInit, OnDestroy {
     // this.dialog.open(TheatersCreateUpdateComponent);
     const dialogRef: MatDialogRef<TheatersCreateUpdateComponent> = this.dialog.open(TheatersCreateUpdateComponent);
     dialogRef.componentInstance.onSaveFn = (formValue: ITheater) => {
-      if(this.theaters?.find((theater: ITheater) => theater.number?.toString().trim() === formValue.number?.toString().trim())){
+      if (this.theaters?.find((theater: ITheater) => theater.number?.toString().trim() === formValue.number?.toString().trim())) {
         this.matSnackBar.open(`Theater with name "${formValue.number}" already exists!`, 'Dismiss', {duration: 0, panelClass: ['warn-background', 'white-color']});
       } else {
         this.theaterService.create(formValue).pipe(

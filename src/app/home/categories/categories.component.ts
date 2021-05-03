@@ -4,7 +4,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject } from 'rxjs';
 import { finalize, take, takeUntil } from 'rxjs/operators';
 import { ICategory } from 'src/app/core/models/category';
+import { IMovie } from 'src/app/core/models/movie';
 import { CategoryService } from 'src/app/core/services/category.service';
+import { MovieService } from 'src/app/core/services/movie.service';
 import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
 import { CategoriesCreateUpdateComponent } from './categories-create-update/categories-create-update.component';
 
@@ -16,11 +18,13 @@ import { CategoriesCreateUpdateComponent } from './categories-create-update/cate
 export class CategoriesComponent implements OnInit, OnDestroy {
   private onComponentDestroy$: Subject<void> = new Subject<void>();
   public categories!: Array<ICategory>;
+  public movies!: Array<IMovie>;
   public isLoading!: boolean;
   // public categories$!: Observable<Array<ICategory>>;
 
   constructor(
     private categoryService: CategoryService,
+    private movieService: MovieService,
     private dialog: MatDialog,
     private matSnackBar: MatSnackBar
     ) { }
@@ -32,6 +36,34 @@ export class CategoriesComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.onComponentDestroy$.next();
     this.onComponentDestroy$.complete();
+  }
+
+  private proceedToDeleteCategory(category: ICategory): void {
+    if (this.movies?.find((movie: IMovie) => movie.category?.id === category.id)) {
+      this.matSnackBar.open(`This category is already used in movies list!`, 'Dismiss', { duration: 0, panelClass: ['warn-background', 'white-color'] });
+    } else {
+      const dialogRef: MatDialogRef<ConfirmDialogComponent> = this.dialog.open(ConfirmDialogComponent, { data: `Are you sure you want to delete category "${category.name}?"`, role: 'alertdialog' });
+      // dialogRef.componentInstance.onCancelFn = () => {
+      //   this.matSnackBar.open('You cancelled');
+      // };
+      dialogRef.componentInstance.onConfirmFn = () => {
+        if (category.id) {
+          this.categoryService.delete(category.id).pipe(
+            take(1),
+            takeUntil(this.onComponentDestroy$)
+          ).subscribe(
+            () => {
+              dialogRef.close();
+              this.categories = this.categories.filter(currentCategory => currentCategory.id !== category.id);
+              this.matSnackBar.open(`Category "${category.name}" has been deleted successfully!`);
+            },
+            () => this.matSnackBar.open(`There was an error deleting category "${category.name}!`)
+          );
+        } else {
+          dialogRef.close();
+        }
+      };
+    }
   }
 
   public loadCategories(): void {
@@ -90,28 +122,16 @@ export class CategoriesComponent implements OnInit, OnDestroy {
   }
 
   public deleteCategory(category: ICategory): void {
-    const dialogRef: MatDialogRef<ConfirmDialogComponent> = this.dialog.open(ConfirmDialogComponent, { data: `Are you sure you want to delete category "${category.name}?"`, role: 'alertdialog' });
-    // dialogRef.componentInstance.onCancelFn = () => {
-    //   this.matSnackBar.open('You cancelled');
-    // };
-    dialogRef.componentInstance.onConfirmFn = () => {
-      if (category.id) {
-        this.categoryService.delete(category.id).pipe(
-          take(1),
-          takeUntil(this.onComponentDestroy$)
-        ).subscribe(
-          () => {
-            dialogRef.close();
-            this.categories = this.categories.filter(currentCategory => currentCategory.id !== category.id);
-            this.matSnackBar.open(`Category "${category.name}" has been deleted successfully!`);
-          },
-          () => this.matSnackBar.open(`There was an error deleting category "${category.name}!`)
-        );
-      } else {
-        dialogRef.close();
-      }
-    };
+    if (!this.movies) { // Load movies list for first time, required for special-case check
+      this.movieService.getList().pipe(
+        take(1),
+        takeUntil(this.onComponentDestroy$)
+      ).subscribe((response: Array<IMovie>) => {
+        this.movies = response;
+        this.proceedToDeleteCategory(category);
+      });
+    } else {
+      this.proceedToDeleteCategory(category);
+    }
   }
-
-
 }

@@ -1,18 +1,25 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
+import { finalize, take, takeUntil } from 'rxjs/operators';
 import { AuthService } from 'src/app/core/auth/auth.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'ikub-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
+  private onComponentDestroy$: Subject<void> = new Subject<void>();
   loginForm!: FormGroup;
+  isLoggingIn!: boolean;
 
   constructor(
+    private router: Router,
     private authService: AuthService,
     private matSnackBar: MatSnackBar
   ) { }
@@ -24,10 +31,25 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  ngOnDestroy(): void {
+    this.onComponentDestroy$.next();
+    this.onComponentDestroy$.complete();
+  }
+
   public login(): void {
     if (this.loginForm.valid) {
-      this.authService.login(this.loginForm.value).subscribe(
-        (response: { token: string }) => console.log(response.token),
+      this.isLoggingIn = true;
+      this.authService.login(this.loginForm.value).pipe(
+        take(1),
+        takeUntil(this.onComponentDestroy$),
+        finalize(() => this.isLoggingIn = false)
+      ).subscribe(
+        (response: { token: string }) => {
+          if (response) {
+            localStorage.setItem(environment.loggedInUserLocalStorageKey, JSON.stringify(response));
+            this.router.navigateByUrl('/home');
+          }
+        },
         (err: HttpErrorResponse) => {
           this.matSnackBar.open(err?.error?.error ? err.error.error : 'Unknown error!');
           if (err?.error?.error?.toLowerCase() === 'user not found') {

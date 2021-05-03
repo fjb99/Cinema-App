@@ -8,9 +8,9 @@ import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.co
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: 'home', component: HomeComponent, canActivate: [AuthGuard], loadChildren: () => import ('./home/home.module').then((m) => m.HomeModule) },
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard], loadChildren: () => import ('./home/home.module').then((m) => m.HomeModule) },
   { path: '**', component: PageNotFoundComponent }
-  
+
 ];
 
 @NgModule({

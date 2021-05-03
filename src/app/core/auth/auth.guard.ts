@@ -1,15 +1,40 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router, CanActivateChild } from '@angular/router';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
     providedIn: 'root'
 })
-export class AuthGuard implements CanActivate {
+export class AuthGuard implements CanActivate, CanActivateChild {
+    constructor(private router: Router) { }
+
+    private isLoggedIn(): boolean {
+        const storedUserDataAsString: string | null = localStorage.getItem(environment.loggedInUserLocalStorageKey);
+        const storedUserDataAsObject: { token?: string } | null = storedUserDataAsString && JSON.parse(storedUserDataAsString);
+        const isLoggedIn: boolean = !!storedUserDataAsObject?.token;
+        return isLoggedIn;
+    }
+
     canActivate(
         route: ActivatedRouteSnapshot,
         state: RouterStateSnapshot
     ): Observable<boolean> | Promise<boolean> | boolean {
-        return true;
+        const isLoggedIn: boolean = this.isLoggedIn();
+        if (!isLoggedIn) {
+            this.router.navigateByUrl('/login');
+        }
+        return isLoggedIn;
+    }
+
+    canActivateChild(
+        route: ActivatedRouteSnapshot,
+        state: RouterStateSnapshot
+    ): Observable<boolean> | Promise<boolean> | boolean {
+        const isLoggedIn: boolean = this.isLoggedIn();
+        if (!isLoggedIn) {
+            this.router.navigateByUrl('/login');
+        }
+        return isLoggedIn;
     }
 }

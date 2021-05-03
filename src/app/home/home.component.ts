@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/core/auth/auth.service';
 
 @Component({
   selector: 'ikub-home',
@@ -6,16 +7,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  toggleSideMenu = true;
 
-  toggleSideMenu = true; 
-
-  constructor() { }
+  constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
   }
 
-  toggleMenu(): void {
+  public toggleMenu(): void {
     this.toggleSideMenu = !this.toggleSideMenu;
   }
 
+  public logout(): void {
+    this.authService.logout();
+  }
 }

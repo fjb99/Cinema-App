@@ -2,7 +2,7 @@
 <form class="row dialog-form" [formGroup]="form">
   <mat-form-field appearance="fill" class="col-sm-12 col-md-6">
     <mat-label>Name</mat-label>
-    <input matInput formControlName="name">
+    <input matInput formControlName="name" autocomplete="off">
     <mat-error *ngIf="form.get('name')?.hasError('required')"><span class="font-weight-bold">Name</span> is required!</mat-error>
   </mat-form-field>
   <mat-form-field appearance="fill" class="col-sm-12 col-md-6">
@@ -14,17 +14,17 @@
   </mat-form-field>
   <mat-form-field appearance="fill" class="col-sm-6 col-md-3">
     <mat-label>Rating</mat-label>
-    <input type="number" matInput formControlName="rating">
+    <input type="number" matInput formControlName="rating" autocomplete="off">
     <mat-error *ngIf="form.get('rating')?.hasError('required')"><span class="font-weight-bold">Rating</span> is required!</mat-error>
   </mat-form-field>
   <mat-form-field appearance="fill" class="col-sm-6 col-md-3">
     <mat-label>Year</mat-label>
-    <input type="number" matInput formControlName="year">
+    <input type="number" matInput formControlName="year" autocomplete="off">
     <mat-error *ngIf="form.get('year')?.hasError('required')"><span class="font-weight-bold">Year</span> is required!</mat-error>
   </mat-form-field>
   <mat-form-field appearance="fill" class="col-sm-12 col-md-6">
     <mat-label>Image URL</mat-label>
-    <input matInput formControlName="imageUrl">
+    <input matInput formControlName="imageUrl" autocomplete="off">
     <mat-error *ngIf="form.get('imageUrl')?.hasError('required')"><span class="font-weight-bold">ImageUrl</span> is required!</mat-error>
   </mat-form-field>
   <mat-form-field appearance="fill" class="col-sm-12">

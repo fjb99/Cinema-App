@@ -28,6 +28,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,8 @@ import {MatNativeDateModule} from '@angular/material/core';
       MatPaginatorModule,
       MatDatepickerModule,
       MatNativeDateModule,
-      MatSnackBarModule
+      MatSnackBarModule,
+      MatProgressSpinnerModule
   ],
   providers: [
     {

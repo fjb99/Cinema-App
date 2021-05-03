@@ -2,12 +2,12 @@
 <form class="row" [formGroup]="form">
     <mat-form-field appearance="fill" class="col-sm-6">
         <mat-label>Theater number</mat-label>
-        <input matInput type="number" formControlName="number">
+        <input matInput type="number" formControlName="number" autocomplete="off">
         <mat-error *ngIf="form.get('number')?.hasError('required')"><span class="font-weight-bold">Number</span> is required!</mat-error>
     </mat-form-field>
     <mat-form-field appearance="fill" class="col-sm-6">
         <mat-label>Capacity</mat-label>
-        <input matInput type="number" formControlName="capacity">
+        <input matInput type="number" formControlName="capacity" autocomplete="off">
         <mat-error *ngIf="form.get('capacity')?.hasError('required')"><span class="font-weight-bold">Capacity</span> is required!</mat-error>
     </mat-form-field>
 </form>

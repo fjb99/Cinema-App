@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable, Subject } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
+import { finalize, take, takeUntil } from 'rxjs/operators';
 import { ICategory } from 'src/app/core/models/category';
 import { ITheater } from 'src/app/core/models/theater';
 import { TheaterService } from 'src/app/core/services/theater.service';
@@ -19,6 +19,7 @@ export class TheatersComponent implements OnInit, OnDestroy {
 
   private onComponentDestroy$: Subject<void> = new Subject<void>();
   public theaters!: Array<ITheater>;
+  public isLoading!: boolean;
   // public theaters$!: Observable<Array<ITheater>>;
 
   constructor(
@@ -39,12 +40,17 @@ export class TheatersComponent implements OnInit, OnDestroy {
   }
 
   public loadTheaters(): void{
+    this.isLoading = true;
     this.theaterService.getList().pipe(
       take(1),
-      takeUntil(this.onComponentDestroy$)
+      takeUntil(this.onComponentDestroy$),
+      finalize(() => this.isLoading = false)
     ).subscribe(
       (response: Array<ICategory>) => {
         this.theaters = response;
+      },
+      (error) => {
+        this.matSnackBar.open('Error loading Theater list!', 'Dismiss', {duration: 0, panelClass: ['warn-background', 'white-color'] })
       }
     );
     // this.theaters$ = this.theaterService.getList();
@@ -54,20 +60,25 @@ export class TheatersComponent implements OnInit, OnDestroy {
     // this.dialog.open(TheatersCreateUpdateComponent);
     const dialogRef: MatDialogRef<TheatersCreateUpdateComponent> = this.dialog.open(TheatersCreateUpdateComponent);
     dialogRef.componentInstance.onSaveFn = (formValue: ITheater) => {
-      this.theaterService.create(formValue).pipe(
-        take(1),
-        takeUntil(this.onComponentDestroy$)
-      ).subscribe(
-        (response: ITheater) => {
-          dialogRef.close();
-          this.theaters.push(response);
-          this.matSnackBar.open(`Theater "${response.number}" created sucesfully!`);
-        },
-        (error) => {
-          dialogRef.close();
-          this.matSnackBar.open(`There was an error creating theater "${formValue.number}"!`);
-        }
-      );
+      if(this.theaters?.find((theater: ITheater) => theater.number?.toString().trim() === formValue.number?.toString().trim())){
+        this.matSnackBar.open(`Theater with name "${formValue.number}" already exists!`, 'Dismiss', {duration: 0, panelClass: ['warn-background', 'white-color']});
+      } else {
+        this.theaterService.create(formValue).pipe(
+          take(1),
+          takeUntil(this.onComponentDestroy$)
+        ).subscribe(
+          (response: ITheater) => {
+            dialogRef.close();
+            this.theaters.push(response);
+            this.matSnackBar.open(`Theater "${response.number}" created sucesfully!`);
+          },
+          (error) => {
+            dialogRef.close();
+            this.matSnackBar.open(`There was an error creating theater "${formValue.number}"!`);
+          }
+        );
+      }
+
     };
   }
 

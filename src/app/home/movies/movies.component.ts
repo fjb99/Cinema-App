@@ -3,7 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable, Subject } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
+import { finalize, take, takeUntil } from 'rxjs/operators';
 import { ICategory } from 'src/app/core/models/category';
 import { IMovie } from 'src/app/core/models/movie';
 import { CategoryService } from 'src/app/core/services/category.service';
@@ -23,6 +23,7 @@ export class MoviesComponent implements OnInit, OnDestroy{
   // public movie$!: Observable<Array<IMovie>>;
   public categories$!: Observable<Array<ICategory>>;
   public form!: FormGroup;
+  public isLoading!: boolean;
 
   constructor(
     private movieService: MovieService,
@@ -49,11 +50,16 @@ export class MoviesComponent implements OnInit, OnDestroy{
   }
 
   public loadMovies(): void {
+    this.isLoading = true;
     this.movieService.getList().pipe(
       take(1),
-      takeUntil(this.onComponentDestroy$)
-    ).subscribe((response: Array<IMovie>) => this.movies = response );
+      takeUntil(this.onComponentDestroy$),
+      finalize(() => this.isLoading = false)
+    ).subscribe(
+      (response: Array<IMovie>) => this.movies = response ,
+      () => this.matSnackBar.open('Error loading Movie List!', 'Dismiss', { duration: 0, panelClass: [ 'warn-background', 'white-color' ] })
     // this.movie$ = this.movieService.getList();
+    );
   }
 
   public loadCategoryList(): void {

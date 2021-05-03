@@ -1,3 +1,4 @@
+<mat-spinner *ngIf="isLoading"></mat-spinner>
 <form class="d-flex flex-column flex-md-row align-items-end align-items-md-start mb-3 mb-md-0 row" [formGroup]="form">
   <mat-form-field class="col-sm-12 col-md-6">
     <mat-label>Movie</mat-label>
@@ -59,6 +60,6 @@
 <div *ngIf="schedules && !schedules.length">No results</div>
 <!-- <div *ngIf="!schedules?.length">No results wrong way</div> -->
 
-<button mat-fab (click)="createSchedule()">
+<button mat-fab [disabled]="isLoading" (click)="createSchedule()">
   <mat-icon>add</mat-icon>
 </button>

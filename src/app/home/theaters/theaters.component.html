@@ -1,3 +1,4 @@
+<mat-spinner *ngIf="isLoading"></mat-spinner>
 <div class="row px-2 pb-2">
   <div *ngFor="let theater of theaters; index as i;" class="col-sm-6 col-md-4 col-lg-3 col-xl-2 px-2 pb-3">
     <mat-card class="w-auto">
@@ -11,6 +12,6 @@
     </mat-card>
   </div>
 </div>
-<button mat-fab (click)="createTheater()">
+<button mat-fab [disabled]="isLoading"  (click)="createTheater()">
   <mat-icon>add</mat-icon>
 </button>

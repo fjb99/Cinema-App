@@ -2,7 +2,7 @@
 <form [formGroup]="form">
     <mat-form-field appearance="fill">
         <mat-label>Category</mat-label>
-        <input matInput formControlName="name">
+        <input matInput formControlName="name" autocomplete="off">
         <mat-error *ngIf="form.get('name')?.hasError('required')"><span class="font-weight-bold">Name</span> is required!</mat-error>
     </mat-form-field>
 </form>

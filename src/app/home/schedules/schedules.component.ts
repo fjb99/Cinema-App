@@ -3,7 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable, Subject } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
+import { finalize, take, takeUntil } from 'rxjs/operators';
 import { ISchedule } from 'src/app/core/models/schedule';
 import { ITheater } from 'src/app/core/models/theater';
 import { ScheduleService } from 'src/app/core/services/schedule.service';
@@ -21,9 +21,11 @@ export class SchedulesComponent implements OnInit, OnDestroy {
   // public schedules$!: Observable<Array<ISchedule>>;
   public allSchedules!: Array<ISchedule>;
   public schedules!: Array<ISchedule>;
+
   public theaters$!: Observable<Array<ITheater>>;
   public form!: FormGroup;
   private onComponentDestroy$: Subject<void> = new Subject<void>();
+  public isLoading!: boolean;
 
   constructor(
     private scheduleService: ScheduleService,
@@ -51,9 +53,11 @@ export class SchedulesComponent implements OnInit, OnDestroy {
   }
 
   private loadSchedules(): void {
+    this.isLoading = true;
     this.scheduleService.getList().pipe(
       take(1),
-      takeUntil(this.onComponentDestroy$)
+      takeUntil(this.onComponentDestroy$),
+      finalize(() => this.isLoading = false)
     ).subscribe(
       (response: Array<ISchedule>) => {
         this.allSchedules = response;
@@ -87,17 +91,21 @@ export class SchedulesComponent implements OnInit, OnDestroy {
   public createSchedule(): void {
     const dialogRef: MatDialogRef<SchedulesCreateUpdateComponent> = this.dialog.open(SchedulesCreateUpdateComponent);
     dialogRef.componentInstance.onSaveFn = (formValue: ISchedule) => {
-      this.scheduleService.create(formValue).pipe(
-        take(1),
-        takeUntil(this.onComponentDestroy$)
-      ).subscribe(
-        (response: ISchedule) => {
-          dialogRef.close();
-          this.schedules.push(response);
-          this.matSnackBar.open(`Schedule for "${response.movie?.name}" movie created successfully!`);
-        },
-        () => this.matSnackBar.open(`There was an error creating schedule for movie "${formValue.movie?.name}"!`)
-      );
+      //if(this.allSchedules?.find((schedule: ISchedule) => schedule.movie?.toString().trim() === formValue.movie?.toString().trim())){
+      //  this.matSnackBar.open(`Theater with name "${formValue.movie}" already exists!`, 'Dismiss', {duration: 0, panelClass: ['warn-background', 'white-color']});
+      //} else {
+        this.scheduleService.create(formValue).pipe(
+          take(1),
+          takeUntil(this.onComponentDestroy$)
+        ).subscribe(
+          (response: ISchedule) => {
+            dialogRef.close();
+            this.schedules.push(response);
+            this.matSnackBar.open(`Schedule for "${response.movie?.name}" movie created successfully!`);
+          },
+          () => this.matSnackBar.open(`There was an error creating schedule for movie "${formValue.movie?.name}"!`)
+        );
+    //  }
     };
   }
 

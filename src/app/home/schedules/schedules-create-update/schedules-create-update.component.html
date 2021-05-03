@@ -42,6 +42,6 @@
     <button *ngIf="selectedSchedule" mat-button color="warn" mat-dialog-close name="delete" (click)="onDeleteRequestedFn && onDeleteRequestedFn()">{{ 'Delete' }}</button>
     <div>
         <button mat-button mat-dialog-close name="cancel">Cancel</button>
-        <button mat-button color="primary" [disabled]="form?.invalid" name="save" (click)="form.valid && onSaveFn && onSaveFn(form.value)">Save</button>
+        <button mat-button color="primary" [disabled]="form?.invalid || form?.pristine" name="save" (click)="form.valid && onSaveFn && onSaveFn(form.value)">Save</button>
     </div>
 </div>

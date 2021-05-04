@@ -57,7 +57,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
               this.categories = this.categories.filter(currentCategory => currentCategory.id !== category.id);
               this.matSnackBar.open(`Category "${category.name}" has been deleted successfully!`);
             },
-            () => this.matSnackBar.open(`There was an error deleting category "${category.name}!`)
+            () => this.matSnackBar.open(`There was an error deleting category "${category.name}!`, '', { duration: 0, panelClass: ['warn-background', 'white-color'] })
           );
         } else {
           dialogRef.close();
@@ -92,9 +92,9 @@ export class CategoriesComponent implements OnInit, OnDestroy {
           (response: ICategory) => {
             dialogRef.close();
             this.categories.push(response);
-            this.matSnackBar.open(`Category "${response.name}" created successfully!`);
+            this.matSnackBar.open(`Category "${response.name}" created successfully!`, '', { panelClass: [ 'success-background', 'white-color' ] });
           },
-          () => this.matSnackBar.open(`There was an error creating category "${formValue.name}"!`)
+          () => this.matSnackBar.open(`There was an error creating category "${formValue.name}"!`, '', {panelClass: ['warn-background', 'white-color'] })
         );
       }
     };
@@ -113,7 +113,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
           (response: ICategory) => {
             dialogRef.close();
             this.categories[index] = response;
-            this.matSnackBar.open(`Category "${category.name}" updated successfully to "${response.name}"!`);
+            this.matSnackBar.open(`Category "${category.name}" updated successfully to "${response.name}"!`, '', { panelClass: [ 'success-background', 'white-color' ] });
           },
           () => this.matSnackBar.open(`There was an error updating category "${category.name}" to "${formValue.name}"!`)
         );

@@ -104,7 +104,7 @@ export class SchedulesComponent implements OnInit, OnDestroy {
           (response: ISchedule) => {
             dialogRef.close();
             this.schedules.push(response);
-            this.matSnackBar.open(`Schedule for "${response.movie?.name}" movie created successfully!`);
+            this.matSnackBar.open(`Schedule for "${response.movie?.name}" movie created successfully!`, '',  { panelClass: [ 'success-background', 'white-color' ] });
           },
           () => this.matSnackBar.open(`There was an error creating schedule for movie "${formValue.movie?.name}"!`)
         );
@@ -123,7 +123,7 @@ export class SchedulesComponent implements OnInit, OnDestroy {
           dialogRef.close();
           this.schedules[index] = response;
           this.schedules = [ ...this.schedules ]; // To trigger table update by re-assigning the schedules array that we pass as "dataSource" to the material table
-          this.matSnackBar.open(`Schedule for "${response.movie?.name}" movie updated successfully!`);
+          this.matSnackBar.open(`Schedule for "${response.movie?.name}" movie updated successfully!`, '',  { panelClass: [ 'success-background', 'white-color' ] });
         },
         () => this.matSnackBar.open(`There was an error updating schedule for movie "${formValue.movie?.name}"!`)
       );

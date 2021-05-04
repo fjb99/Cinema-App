@@ -102,7 +102,7 @@ export class MoviesComponent implements OnInit, OnDestroy{
         (response: IMovie) => {
           dialogRef.close();
           this.movies.push(response);
-          this.matSnackBar.open(`Movie "${response.name}" has been created successfully!`);
+          this.matSnackBar.open(`Movie "${response.name}" has been created successfully!`, '',  { panelClass: [ 'success-background', 'white-color' ] });
         },
         (error) => {
           this.matSnackBar.open(`There was an error creating category "${formValue.name}"!`);
@@ -121,10 +121,10 @@ export class MoviesComponent implements OnInit, OnDestroy{
         (response: IMovie) => {
           this.movies[index] = response;
           dialogRef.close();
-          this.matSnackBar.open(`Movie "${movie.name}" has been updated successfully!`);
+          this.matSnackBar.open(`Movie "${movie.name}" has been updated successfully!`, '', { panelClass: [ 'success-background', 'white-color' ] });
         },
         (error) => {
-          this.matSnackBar.open(`There was an error updating Movie "${movie.name}"`);
+          this.matSnackBar.open(`There was an error updating Movie "${movie.name}"`, '', { panelClass: [ 'success-background', 'white-color' ] });
         }
       );
     };

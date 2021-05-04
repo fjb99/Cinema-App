@@ -62,6 +62,9 @@ export class SchedulesComponent implements OnInit, OnDestroy {
       (response: Array<ISchedule>) => {
         this.allSchedules = response;
         this.schedules = response;
+      },
+      (error) => {
+        this.matSnackBar.open('Error loading Schedule List!', 'Dismiss', { duration: 0, panelClass: [ 'warn-background', 'white-color' ] })
       }
     );
     // this.schedules$ = this.scheduleService.getList();

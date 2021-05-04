@@ -1,26 +1,19 @@
 <mat-spinner *ngIf="isLoading"></mat-spinner>
-<div class="d-flex flex-column flex-md-row align-items-end align-items-md-start mb-3 mb-md-0">
-  <div class="w-100">
-    <form class="row" [formGroup]="form">
-      <mat-form-field class="col-sm-12 col-md-6">
-        <mat-label>Movie</mat-label>
-        <input matInput formControlName="name" autocomplete="off"> <!-- (keyup)="applyFilter($event)" -->
-      </mat-form-field>
-      <mat-form-field appearance="legacy" class="col-sm-12 col-md-6">
-        <mat-label>Category</mat-label>
-        <mat-select formControlName="category">
-          <mat-option>None</mat-option>
-          <mat-option *ngFor="let category of categories$ | async" [value]="category">
-            {{category.name}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </form>
-  </div>
-  <div class="ml-4">
-    <button mat-raised-button color="primary">Search</button>
-  </div>
-</div>
+<form class="row" [formGroup]="form">
+  <mat-form-field class="col-sm-12 col-md-6">
+    <mat-label>Movie</mat-label>
+    <input matInput formControlName="movieName" autocomplete="off" (input)="search()">
+  </mat-form-field>
+  <mat-form-field appearance="legacy" class="col-sm-12 col-md-6">
+    <mat-label>Category</mat-label>
+    <mat-select formControlName="category" (selectionChange)="search()">
+      <mat-option>None</mat-option>
+      <mat-option *ngFor="let category of categories$ | async" [value]="category">
+        {{category.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</form>
 <div class="row px-2 pb-2">
   <div *ngFor="let movie of movies; index as i" class="col-sm-12 col-md-6 col-lg-4 col-xl-3 px-2 pb-3">
     <mat-card class="w-auto">

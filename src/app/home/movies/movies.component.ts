@@ -20,6 +20,7 @@ export class MoviesComponent implements OnInit, OnDestroy{
 
   private onComponentDestroy$: Subject<void> = new Subject<void>();
   public movies!: Array<IMovie>;
+  public allMovies!: Array<IMovie>;
   // public movie$!: Observable<Array<IMovie>>;
   public categories$!: Observable<Array<ICategory>>;
   public form!: FormGroup;
@@ -39,7 +40,7 @@ export class MoviesComponent implements OnInit, OnDestroy{
 
   private buildForm(): void {
     this.form = new FormGroup({
-      name: new FormControl(),
+      movieName: new FormControl(),
       category: new FormControl()
     });
   }
@@ -56,10 +57,31 @@ export class MoviesComponent implements OnInit, OnDestroy{
       takeUntil(this.onComponentDestroy$),
       finalize(() => this.isLoading = false)
     ).subscribe(
-      (response: Array<IMovie>) => this.movies = response ,
-      () => this.matSnackBar.open('Error loading Movie List!', 'Dismiss', { duration: 0, panelClass: [ 'warn-background', 'white-color' ] })
+      (response: Array<IMovie>) => {
+        this.movies = response,
+        this.allMovies = response
+      },
+      () => {
+        this.matSnackBar.open('Error loading Movie List!', 'Dismiss', { duration: 0, panelClass: [ 'warn-background', 'white-color' ] })
+      }
     // this.movie$ = this.movieService.getList();
     );
+  }
+
+  public search(): void {
+    const movieName: string | null | undefined = this.form.get('movieName')?.value;
+    const category: ICategory = this.form.get('category')?.value;
+    this.movies = this.allMovies.filter((movie: IMovie) => {
+      let movieNameMatch = true;
+      if(movieName?.trim().length) {
+        movieNameMatch = !!movie.name?.trim().toLowerCase()?.includes(movieName.trim().toLowerCase());
+      }
+      let categotyMatches = true;
+      if(category) {
+        categotyMatches = movie.category?.name === category.name;
+      }
+      return movieNameMatch && categotyMatches;
+    });
   }
 
   public loadCategoryList(): void {

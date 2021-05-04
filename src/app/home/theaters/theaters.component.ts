@@ -4,7 +4,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable, Subject } from 'rxjs';
 import { finalize, take, takeUntil } from 'rxjs/operators';
 import { ICategory } from 'src/app/core/models/category';
+import { ISchedule } from 'src/app/core/models/schedule';
 import { ITheater } from 'src/app/core/models/theater';
+import { ScheduleService } from 'src/app/core/services/schedule.service';
 import { TheaterService } from 'src/app/core/services/theater.service';
 import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
 import { TheatersCreateUpdateComponent } from './theaters-create-update/theaters-create-update.component';
@@ -20,12 +22,14 @@ export class TheatersComponent implements OnInit, OnDestroy {
   private onComponentDestroy$: Subject<void> = new Subject<void>();
   public theaters!: Array<ITheater>;
   public isLoading!: boolean;
+  public schedules!: Array<ISchedule>;
   // public theaters$!: Observable<Array<ITheater>>;
 
   constructor(
     private theaterService: TheaterService,
     private dialog: MatDialog,
-    private matSnackBar: MatSnackBar
+    private matSnackBar: MatSnackBar,
+    private scheduleService: ScheduleService
   ) { }
 
   ngOnInit(): void {
@@ -99,24 +103,47 @@ export class TheatersComponent implements OnInit, OnDestroy {
     };
   }
 
+  public proceedToDeleteTheater(theater: ITheater): void{
+    if(this.schedules?.find((schedule: ISchedule) => schedule.theater?.id === theater.id)) {
+      this.matSnackBar.open(`This theater is already used in schedule list!`, 'Dismiss', { duration: 0, panelClass: ['warn-background', 'white-color'] });
+    } else {
+      const dialogRef: MatDialogRef<ConfirmDialogComponent> = this.dialog.open(ConfirmDialogComponent, {data: `Are you sure you want to delete theater "${theater.number}"?`, role: 'alertdialog'});
+      dialogRef.componentInstance.onConfirmFn = () => {
+        if (theater.id) {
+          this.theaterService.delete(theater.id).pipe(
+            take(1),
+            takeUntil(this.onComponentDestroy$)
+          ).subscribe(
+            () => {
+              dialogRef.close();
+              this.theaters = this.theaters.filter(currenttheater => currenttheater.id !== theater.id);
+              this.matSnackBar.open(`Theater "${theater.number}" has been deleted!`);
+            }
+          );
+        } else {
+          dialogRef.close();
+        }
+      };
+    }
+  }
+
   public deleteTheater(theater: ITheater): void {
-    const dialogRef: MatDialogRef<ConfirmDialogComponent> = this.dialog.open(ConfirmDialogComponent, {data: `Are you sure you want to delete theater "${theater.number}"?`, role: 'alertdialog'});
-    dialogRef.componentInstance.onConfirmFn = () => {
-      if (theater.id) {
-        this.theaterService.delete(theater.id).pipe(
-          take(1),
-          takeUntil(this.onComponentDestroy$)
-        ).subscribe(
-          () => {
-            dialogRef.close();
-            this.theaters = this.theaters.filter(currenttheater => currenttheater.id !== theater.id);
-            this.matSnackBar.open(`Theater "${theater.number}" has been deleted!`);
-          }
-        );
-      } else {
-        dialogRef.close();
-      }
-    };
+    if(!this.schedules) {
+      this.scheduleService.getList().pipe(
+        take(1),
+        takeUntil(this.onComponentDestroy$)
+      ).subscribe(
+        (response: Array<ISchedule>) => {
+          this.schedules = response;
+          this.proceedToDeleteTheater(theater);
+        },
+        (error) => {
+          this.matSnackBar.open(`There was an error loading Schedule list`, 'dismiss', { duration: 0, panelClass: [ 'warn-background', 'white-color' ] })
+        }
+      );
+    } else {
+      this.proceedToDeleteTheater(theater);
+    }
   }
 
 }

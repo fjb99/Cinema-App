@@ -1,12 +1,12 @@
 <h1>{{ selectedCategory ? 'Edit' : 'New' }} Category</h1>
 <form [formGroup]="form">
-    <mat-form-field appearance="fill">
-        <mat-label>Category</mat-label>
-        <input matInput formControlName="name" autocomplete="off">
-        <mat-error *ngIf="form.get('name')?.hasError('required')"><span class="font-weight-bold">Name</span> is required!</mat-error>
-    </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Category</mat-label>
+    <input matInput formControlName="name" autocomplete="off">
+    <mat-error *ngIf="form.get('name')?.hasError('required')"><span class="font-weight-bold">Name</span> is required!</mat-error>
+  </mat-form-field>
 </form>
 <div class="d-flex justify-content-end">
-    <button mat-button mat-dialog-close name="cancel">Cancel</button>
-    <button mat-button color="primary" [disabled]="form?.invalid || form?.pristine" name="save" (click)="form.valid && onSaveFn && onSaveFn(form.value)">Save</button>
+  <button mat-button mat-dialog-close name="cancel">Cancel</button>
+  <button mat-button color="primary" [disabled]="form?.invalid || form?.pristine" name="save" (click)="form.valid && onSaveFn && onSaveFn(form.value)">Save</button>
 </div>

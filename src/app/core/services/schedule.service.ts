@@ -12,6 +12,8 @@ export class ScheduleService {
   constructor(private httpClient: HttpClient) { }
 
   public getList(): Observable<Array<ISchedule>> {
+    // const token: string = (localStorage.getItem(environment.loggedInUserLocalStorageKey) && JSON.parse(localStorage.getItem(environment.loggedInUserLocalStorageKey) as string))?.token;
+    // return this.httpClient.get<Array<ISchedule>>(`${environment.apiUrl}/schedules`, { headers: new HttpHeaders({ Authorization: token }) });
     return this.httpClient.get<Array<ISchedule>>(`${environment.apiUrl}/schedules`);
   }
 

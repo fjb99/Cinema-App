@@ -21,3 +21,6 @@
     }
   }
 }
+.main-content {
+  max-height: calc(100vh - 64px - 52px - 1px); // 64px is height of header toolbar, 52px is footer, 1px is the divider
+}

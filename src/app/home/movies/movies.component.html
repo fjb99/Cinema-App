@@ -1,4 +1,3 @@
-<mat-spinner *ngIf="isLoading"></mat-spinner>
 <form class="row" [formGroup]="form">
   <mat-form-field class="col-sm-12 col-md-6">
     <mat-label>Movie</mat-label>
@@ -30,6 +29,7 @@
     </mat-card>
   </div>
 </div>
+<mat-spinner *ngIf="isLoading"></mat-spinner>
 <button mat-fab [disabled]="isLoading" (click)="createMovie()">
   <mat-icon>add</mat-icon>
 </button>

@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import {MatCardModule} from '@angular/material/card';
 import { TokenInterceptor } from 'src/app/core/interceptors/token.interceptor';
+import {MatButtonModule} from '@angular/material/button';
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import { TokenInterceptor } from 'src/app/core/interceptors/token.interceptor';
     MatFormFieldModule,
     MatInputModule,
     MatSnackBarModule,
-    MatCardModule
+    MatCardModule,
+    MatButtonModule
   ],
   declarations: [
     LoginComponent

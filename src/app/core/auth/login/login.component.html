@@ -1,7 +1,8 @@
 <!--<img src="assets/img/cinema.webp" alt="">-->
 <div class="bg-image">
   <mat-card  style="width: 18rem;">
-    <form *ngIf="loginForm !== undefined && loginForm !== null" class="d-flex flex-column" [formGroup]="loginForm" (submit)="login()">
+    <h3 class="p-login">Cinema App</h3>
+    <form *ngIf="loginForm !== undefined && loginForm !== null" class="d-flex flex-column p-4" [formGroup]="loginForm" (submit)="login()">
       <mat-form-field appearance="standard">
         <mat-label>Email</mat-label>
         <input type="email" autocomplete="email" matInput placeholder="Enter your email" formControlName="email" required>
@@ -12,7 +13,9 @@
         <input type="password" autocomplete="current-password" matInput placeholder="Enter your password" formControlName="password" required>
         <mat-error *ngIf="loginForm.get('password')?.hasError('required')">Password is required!</mat-error>
       </mat-form-field>
-      <button type="submit" class="btn btn-primary mt-3" [disabled]="loginForm.invalid">Submit</button>
+      <div class="display">
+        <button type="submit" mat-raised-button color="primary" [disabled]="loginForm.invalid">Login</button>
+      </div>
     </form>
   </mat-card>
 </div>

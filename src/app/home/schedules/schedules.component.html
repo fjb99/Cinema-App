@@ -58,7 +58,7 @@
 </ng-container>
 <div *ngIf="schedules && !schedules.length">No results</div>
 <!-- <div *ngIf="!schedules?.length">No results wrong way</div> -->
-<mat-spinner *ngIf="isLoading"></mat-spinner>
+<mat-spinner *ngIf="isLoading" [diameter]="10" [strokeWidth]="4"></mat-spinner>
 <button mat-fab [disabled]="isLoading" (click)="createSchedule()">
   <mat-icon>add</mat-icon>
 </button>

@@ -9,6 +9,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import {MatCardModule} from '@angular/material/card';
 import { TokenInterceptor } from 'src/app/core/interceptors/token.interceptor';
 import {MatButtonModule} from '@angular/material/button';
+import { LoadingInterceptor } from 'src/app/core/interceptors/loading.interceptor';
 
 @NgModule({
   imports: [
@@ -28,6 +29,11 @@ import {MatButtonModule} from '@angular/material/button';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoadingInterceptor,
       multi: true
     }
   ]

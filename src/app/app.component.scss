@@ -1,0 +1,22 @@
+.loading-spinner {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 9999;
+  &-backdrop {
+    width: 100%;
+    height: 100%;
+    animation: fadeInBackground .75s ease-in forwards;
+    @keyframes fadeInBackground {
+      to { background-color: rgba( black, .5) }
+    }
+  }
+  mat-spinner {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}

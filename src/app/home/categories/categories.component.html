@@ -10,10 +10,9 @@
     </mat-card>
   </div>
 </div>
-<mat-spinner *ngIf="isLoading" [diameter]="10" [strokeWidth]="4"></mat-spinner>
 <div class="d-flex align-items-end flex-column">
   <div class="p-2">
-    <button mat-fab [disabled]="isLoading" (click)="createCategory()">
+    <button mat-fab (click)="createCategory()">
       <mat-icon>add</mat-icon>
     </button>
   </div>

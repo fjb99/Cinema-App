@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Observable, Subject } from 'rxjs';
-import { finalize, take, takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { take, takeUntil } from 'rxjs/operators';
 import { ICategory } from 'src/app/core/models/category';
 import { ISchedule } from 'src/app/core/models/schedule';
 import { ITheater } from 'src/app/core/models/theater';
@@ -21,7 +21,6 @@ export class TheatersComponent implements OnInit, OnDestroy {
 
   private onComponentDestroy$: Subject<void> = new Subject<void>();
   public theaters!: Array<ITheater>;
-  public isLoading!: boolean;
   public schedules!: Array<ISchedule>;
   // public theaters$!: Observable<Array<ITheater>>;
 
@@ -44,11 +43,9 @@ export class TheatersComponent implements OnInit, OnDestroy {
   }
 
   public loadTheaters(): void{
-    this.isLoading = true;
     this.theaterService.getList().pipe(
       take(1),
-      takeUntil(this.onComponentDestroy$),
-      finalize(() => this.isLoading = false)
+      takeUntil(this.onComponentDestroy$)
     ).subscribe(
       (response: Array<ICategory>) => {
         this.theaters = response;

@@ -1,9 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { Observable, Subject } from 'rxjs';
-import { finalize, take, takeUntil } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 import { ISchedule } from 'src/app/core/models/schedule';
 import { ITheater } from 'src/app/core/models/theater';
 import { ScheduleService } from 'src/app/core/services/schedule.service';
@@ -16,16 +18,17 @@ import { SchedulesCreateUpdateComponent } from './schedules-create-update/schedu
   templateUrl: './schedules.component.html',
   styleUrls: ['./schedules.component.scss']
 })
-export class SchedulesComponent implements OnInit, OnDestroy {
+export class SchedulesComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // public schedules$!: Observable<Array<ISchedule>>;
   public allSchedules!: Array<ISchedule>;
   public schedules!: Array<ISchedule>;
+  public dataSource = new MatTableDataSource();
+  @ViewChild(MatSort) matSort!: MatSort;
 
   public theaters$!: Observable<Array<ITheater>>;
   public form!: FormGroup;
   private onComponentDestroy$: Subject<void> = new Subject<void>();
-  public isLoading!: boolean;
 
   constructor(
     private scheduleService: ScheduleService,
@@ -45,6 +48,11 @@ export class SchedulesComponent implements OnInit, OnDestroy {
     this.onComponentDestroy$.complete();
   }
 
+  ngAfterViewInit(): void {
+    this.dataSource.sort = this.matSort;
+    this.dataSource.data = this.schedules;
+  }
+
   private buldForm(): void {
     this.form = new FormGroup({
       movieName: new FormControl(),
@@ -53,15 +61,14 @@ export class SchedulesComponent implements OnInit, OnDestroy {
   }
 
   private loadSchedules(): void {
-    this.isLoading = true;
     this.scheduleService.getList().pipe(
       take(1),
-      takeUntil(this.onComponentDestroy$),
-      finalize(() => this.isLoading = false)
+      takeUntil(this.onComponentDestroy$)
     ).subscribe(
       (response: Array<ISchedule>) => {
         this.allSchedules = response;
         this.schedules = response;
+        this.dataSource.data = this.schedules;
       },
       (error) => {
         this.matSnackBar.open('Error loading Schedule List!', 'Dismiss', { duration: 0, panelClass: [ 'warn-background', 'white-color' ] })
@@ -89,6 +96,7 @@ export class SchedulesComponent implements OnInit, OnDestroy {
       }
       return movieNameMatches && theaterMatches;
     });
+    this.dataSource.data = this.schedules;
   }
 
   public createSchedule(): void {
@@ -104,6 +112,7 @@ export class SchedulesComponent implements OnInit, OnDestroy {
           (response: ISchedule) => {
             dialogRef.close();
             this.schedules.push(response);
+            this.dataSource.data = this.schedules;
             this.matSnackBar.open(`Schedule for "${response.movie?.name}" movie created successfully!`, '',  { panelClass: [ 'success-background', 'white-color' ] });
           },
           () => this.matSnackBar.open(`There was an error creating schedule for movie "${formValue.movie?.name}"!`)
@@ -122,7 +131,8 @@ export class SchedulesComponent implements OnInit, OnDestroy {
         (response: ISchedule) => {
           dialogRef.close();
           this.schedules[index] = response;
-          this.schedules = [ ...this.schedules ]; // To trigger table update by re-assigning the schedules array that we pass as "dataSource" to the material table
+          // this.schedules = [ ...this.schedules ]; // To trigger table update by re-assigning the schedules array that we pass as "dataSource" to the material table
+          this.dataSource.data = this.schedules;
           this.matSnackBar.open(`Schedule for "${response.movie?.name}" movie updated successfully!`, '',  { panelClass: [ 'success-background', 'white-color' ] });
         },
         () => this.matSnackBar.open(`There was an error updating schedule for movie "${formValue.movie?.name}"!`)
@@ -140,6 +150,7 @@ export class SchedulesComponent implements OnInit, OnDestroy {
               confirmDialogRef.close();
               dialogRef.close();
               this.schedules = this.schedules.filter(currentSchedule => currentSchedule.id !== schedule.id);
+              this.dataSource.data = this.schedules;
               this.matSnackBar.open(`Schedule for movie "${schedule.movie?.name}" has been deleted successfully!`);
             },
             () => this.matSnackBar.open(`There was an error deleting schedule for movie "${schedule.movie?.name}!`)

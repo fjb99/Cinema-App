@@ -29,7 +29,6 @@
     </mat-card>
   </div>
 </div>
-<mat-spinner *ngIf="isLoading" [diameter]="10" [strokeWidth]="4"></mat-spinner>
-<button mat-fab [disabled]="isLoading" (click)="createMovie()">
+<button mat-fab (click)="createMovie()">
   <mat-icon>add</mat-icon>
 </button>

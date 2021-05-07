@@ -70,11 +70,11 @@ export class MoviesComponent implements OnInit, OnDestroy{
     const category: ICategory = this.form.get('category')?.value;
     this.movies = this.allMovies.filter((movie: IMovie) => {
       let movieNameMatch = true;
-      if(movieName?.trim().length) {
+      if (movieName?.trim().length) {
         movieNameMatch = !!movie.name?.trim().toLowerCase()?.includes(movieName.trim().toLowerCase());
       }
       let categotyMatches = true;
-      if(category) {
+      if (category) {
         categotyMatches = movie.category?.name === category.name;
       }
       return movieNameMatch && categotyMatches;

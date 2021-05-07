@@ -23,7 +23,7 @@ export class MoviesCreateUpdateComponent implements OnInit {
     private categoryService: CategoryService,
     private movieService: MovieService,
     @Inject(MAT_DIALOG_DATA) public selectedMovie: IMovie | undefined | null
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.buildForm();

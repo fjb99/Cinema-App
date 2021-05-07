@@ -101,7 +101,7 @@ export class TheatersComponent implements OnInit, OnDestroy {
   }
 
   public proceedToDeleteTheater(theater: ITheater): void{
-    if(this.schedules?.find((schedule: ISchedule) => schedule.theater?.id === theater.id)) {
+    if (this.schedules?.find((schedule: ISchedule) => schedule.theater?.id === theater.id)) {
       this.matSnackBar.open(`This theater is already used in schedule list!`, 'Dismiss', { duration: 0, panelClass: ['warn-background', 'white-color'] });
     } else {
       const dialogRef: MatDialogRef<ConfirmDialogComponent> = this.dialog.open(ConfirmDialogComponent, {data: `Are you sure you want to delete theater "${theater.number}"?`, role: 'alertdialog'});
@@ -125,7 +125,7 @@ export class TheatersComponent implements OnInit, OnDestroy {
   }
 
   public deleteTheater(theater: ITheater): void {
-    if(!this.schedules) {
+    if (!this.schedules) {
       this.scheduleService.getList().pipe(
         take(1),
         takeUntil(this.onComponentDestroy$)

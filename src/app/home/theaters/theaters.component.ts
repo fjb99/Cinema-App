@@ -50,9 +50,7 @@ export class TheatersComponent implements OnInit, OnDestroy {
       (response: Array<ICategory>) => {
         this.theaters = response;
       },
-      (error) => {
-        this.matSnackBar.open('Error loading Theater list!', 'Dismiss', {duration: 0, panelClass: ['warn-background', 'white-color'] })
-      }
+      () => this.matSnackBar.open('Error loading Theater list!', 'Dismiss', {duration: 0, panelClass: ['warn-background', 'white-color'] })
     );
     // this.theaters$ = this.theaterService.getList();
   }

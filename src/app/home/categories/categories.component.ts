@@ -71,7 +71,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
       takeUntil(this.onComponentDestroy$)
     ).subscribe(
       (response: Array<ICategory>) => this.categories = response,
-      (error) => this.matSnackBar.open('Error loading Category list!', 'Dismiss', { duration: 0, panelClass: [ 'warn-background', 'white-color' ] })
+      () => this.matSnackBar.open('Error loading Category list!', 'Dismiss', { duration: 0, panelClass: [ 'warn-background', 'white-color' ] })
     );
     // this.categories$ = this.categoryService.getList();
   }

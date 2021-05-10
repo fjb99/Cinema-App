@@ -58,9 +58,7 @@ export class MoviesComponent implements OnInit, OnDestroy{
         this.movies = response;
         this.allMovies = response;
       },
-      () => {
-        this.matSnackBar.open('Error loading Movie List!', 'Dismiss', { duration: 0, panelClass: [ 'warn-background', 'white-color' ] })
-      }
+      () => this.matSnackBar.open('Error loading Movie List!', 'Dismiss', { duration: 0, panelClass: [ 'warn-background', 'white-color' ] })
     // this.movie$ = this.movieService.getList();
     );
   }

@@ -70,9 +70,7 @@ export class SchedulesComponent implements OnInit, OnDestroy, AfterViewInit {
         this.schedules = response;
         this.dataSource.data = this.schedules;
       },
-      (error) => {
-        this.matSnackBar.open('Error loading Schedule List!', 'Dismiss', { duration: 0, panelClass: [ 'warn-background', 'white-color' ] })
-      }
+      () => this.matSnackBar.open('Error loading Schedule List!', 'Dismiss', { duration: 0, panelClass: [ 'warn-background', 'white-color' ] })
     );
     // this.schedules$ = this.scheduleService.getList();
   }

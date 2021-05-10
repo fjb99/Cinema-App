@@ -1,5 +1,5 @@
 <div class="row px-2 pb-2">
-  <div *ngFor="let theater of theaters; index as i;" class="col-sm-6 col-md-4 col-lg-3 col-xl-2 px-2 pb-3">
+  <div *ngFor="let theater of theaters; index as i;" class="col-sm-6 col-md-4 col-lg-3 px-2 pb-3">
     <mat-card class="w-auto">
       <mat-card-title class="mb-4">#{{ theater.number }}</mat-card-title>
       <mat-card-subtitle>Created: {{ theater.createdAt | date: 'dd/MM/YYYY' }}</mat-card-subtitle>

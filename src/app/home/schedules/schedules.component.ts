@@ -19,13 +19,11 @@ import { SchedulesCreateUpdateComponent } from './schedules-create-update/schedu
   styleUrls: ['./schedules.component.scss']
 })
 export class SchedulesComponent implements OnInit, OnDestroy, AfterViewInit {
-
   // public schedules$!: Observable<Array<ISchedule>>;
   public allSchedules!: Array<ISchedule>;
   public schedules!: Array<ISchedule>;
-  public dataSource = new MatTableDataSource();
-  @ViewChild(MatSort) matSort!: MatSort;
-
+  public dataSource: MatTableDataSource<ISchedule> = new MatTableDataSource<ISchedule>();
+  @ViewChild(MatSort, { static: false }) matSort!: MatSort;
   public theaters$!: Observable<Array<ITheater>>;
   public form!: FormGroup;
   private onComponentDestroy$: Subject<void> = new Subject<void>();
@@ -49,9 +47,23 @@ export class SchedulesComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.dataSource.sort = this.matSort;
-    this.dataSource.data = this.schedules;
+    if (this.dataSource) {
+      this.dataSource.sort = this.matSort;
+    }
   }
+
+  private setMatTableDataSource(schedules: Array<ISchedule> = this.schedules): void {
+    this.dataSource.data = schedules;
+    if (!this.dataSource.sort) {
+      this.dataSource.sort = this.matSort;
+    }
+    this.dataSource.sortingDataAccessor = (data: ISchedule, sortByPropertyName: string) => {
+      const value: any = this.getPropertyValue(data, sortByPropertyName);
+      return typeof value === 'string' ? value.toLowerCase() : value; // Ignore case during sort on strings
+    }
+  }
+
+  private getPropertyValue = (object: any, key: string): any => key.split('.').length ? key.split('.').reduce((acc, curr) => acc && acc[curr] || null, object) : object[key];
 
   private buldForm(): void {
     this.form = new FormGroup({
@@ -68,7 +80,7 @@ export class SchedulesComponent implements OnInit, OnDestroy, AfterViewInit {
       (response: Array<ISchedule>) => {
         this.allSchedules = response;
         this.schedules = response;
-        this.dataSource.data = this.schedules;
+        this.setMatTableDataSource();
       },
       () => this.matSnackBar.open('Error loading Schedule List!', 'Dismiss', { duration: 0, panelClass: [ 'warn-background', 'white-color' ] })
     );
@@ -94,28 +106,24 @@ export class SchedulesComponent implements OnInit, OnDestroy, AfterViewInit {
       }
       return movieNameMatches && theaterMatches;
     });
-    this.dataSource.data = this.schedules;
+    this.setMatTableDataSource();
   }
 
   public createSchedule(): void {
     const dialogRef: MatDialogRef<SchedulesCreateUpdateComponent> = this.dialog.open(SchedulesCreateUpdateComponent);
     dialogRef.componentInstance.onSaveFn = (formValue: ISchedule) => {
-      //if (this.allSchedules?.find((schedule: ISchedule) => schedule.movie?.toString().trim() === formValue.movie?.toString().trim())) {
-      //  this.matSnackBar.open(`Theater with name "${formValue.movie}" already exists!`, 'Dismiss', {duration: 0, panelClass: ['warn-background', 'white-color']});
-      //} else {
-        this.scheduleService.create(formValue).pipe(
-          take(1),
-          takeUntil(this.onComponentDestroy$)
-        ).subscribe(
-          (response: ISchedule) => {
-            dialogRef.close();
-            this.schedules.push(response);
-            this.dataSource.data = this.schedules;
-            this.matSnackBar.open(`Schedule for "${response.movie?.name}" movie created successfully!`, '',  { panelClass: [ 'success-background', 'white-color' ] });
-          },
-          () => this.matSnackBar.open(`There was an error creating schedule for movie "${formValue.movie?.name}"!`)
-        );
-    //  }
+      this.scheduleService.create(formValue).pipe(
+        take(1),
+        takeUntil(this.onComponentDestroy$)
+      ).subscribe(
+        (response: ISchedule) => {
+          dialogRef.close();
+          this.schedules.push(response);
+          this.setMatTableDataSource();
+          this.matSnackBar.open(`Schedule for "${response.movie?.name}" movie created successfully!`, '',  { panelClass: [ 'success-background', 'white-color' ] });
+        },
+        () => this.matSnackBar.open(`There was an error creating schedule for movie "${formValue.movie?.name}"!`)
+      );
     };
   }
 
@@ -129,8 +137,7 @@ export class SchedulesComponent implements OnInit, OnDestroy, AfterViewInit {
         (response: ISchedule) => {
           dialogRef.close();
           this.schedules[index] = response;
-          // this.schedules = [ ...this.schedules ]; // To trigger table update by re-assigning the schedules array that we pass as "dataSource" to the material table
-          this.dataSource.data = this.schedules;
+          this.setMatTableDataSource();
           this.matSnackBar.open(`Schedule for "${response.movie?.name}" movie updated successfully!`, '',  { panelClass: [ 'success-background', 'white-color' ] });
         },
         () => this.matSnackBar.open(`There was an error updating schedule for movie "${formValue.movie?.name}"!`)
@@ -148,7 +155,7 @@ export class SchedulesComponent implements OnInit, OnDestroy, AfterViewInit {
               confirmDialogRef.close();
               dialogRef.close();
               this.schedules = this.schedules.filter(currentSchedule => currentSchedule.id !== schedule.id);
-              this.dataSource.data = this.schedules;
+              this.setMatTableDataSource();
               this.matSnackBar.open(`Schedule for movie "${schedule.movie?.name}" has been deleted successfully!`);
             },
             () => this.matSnackBar.open(`There was an error deleting schedule for movie "${schedule.movie?.name}!`)

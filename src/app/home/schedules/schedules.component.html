@@ -14,48 +14,46 @@
   </mat-form-field>
 </form>
 
-<ng-container *ngIf="schedules?.length">
-  <table mat-table matSort [dataSource]="dataSource" class="mat-elevation-z8">
-    <!-- Movie Column -->
-    <ng-container matColumnDef="movie">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Movie</th>
-      <td mat-cell *matCellDef="let element">{{element.movie?.name}}</td>
-    </ng-container>
+<table [hidden]="!schedules?.length" mat-table matSort [dataSource]="dataSource" class="mat-elevation-z8">
+  <!-- Movie Column -->
+  <ng-container matColumnDef="movie.name">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Movie</th>
+    <td mat-cell *matCellDef="let element">{{element.movie?.name}}</td>
+  </ng-container>
 
-    <!-- Theater Column -->
-    <ng-container matColumnDef="theater">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Theater</th>
-      <td mat-cell *matCellDef="let element">{{element.theater.number}}</td>
-    </ng-container>
+  <!-- Theater Column -->
+  <ng-container matColumnDef="theater.number">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Theater</th>
+    <td mat-cell *matCellDef="let element">{{element.theater.number}}</td>
+  </ng-container>
 
-    <!-- date Column -->
-    <ng-container matColumnDef="date">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
-      <td mat-cell *matCellDef="let element">{{ element.date | date: 'dd/MM/YYYY' }}</td>
-    </ng-container>
+  <!-- date Column -->
+  <ng-container matColumnDef="date">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
+    <td mat-cell *matCellDef="let element">{{ element.date | date: 'dd/MM/YYYY' }}</td>
+  </ng-container>
 
-    <!-- Time Column -->
-    <ng-container matColumnDef="time">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Time</th>
-      <td mat-cell *matCellDef="let element"> {{element.time }} </td>
-    </ng-container>
+  <!-- Time Column -->
+  <ng-container matColumnDef="time">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Time</th>
+    <td mat-cell *matCellDef="let element"> {{element.time }} </td>
+  </ng-container>
 
-    <!-- Price Column -->
-    <ng-container matColumnDef="price">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Price</th>
-      <td mat-cell *matCellDef="let element"> ${{element.price}} </td>
-    </ng-container>
+  <!-- Price Column -->
+  <ng-container matColumnDef="price">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Price</th>
+    <td mat-cell *matCellDef="let element"> ${{element.price}} </td>
+  </ng-container>
 
-    <!-- Created At Column -->
-    <ng-container matColumnDef="createdAt">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 200px;">Created At</th>
-      <td mat-cell *matCellDef="let element">{{ element.createdAt | date: 'dd/MM/YYYY &nbsp; HH:mm:ss' }}</td>
-    </ng-container>
+  <!-- Created At Column -->
+  <ng-container matColumnDef="createdAt">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 200px;">Created At</th>
+    <td mat-cell *matCellDef="let element">{{ element.createdAt | date: 'dd/MM/YYYY &nbsp; HH:mm:ss' }}</td>
+  </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="['movie', 'theater', 'date', 'time', 'price', 'createdAt']"></tr>
-    <tr mat-row *matRowDef="let row; columns: ['movie', 'theater', 'date', 'time', 'price', 'createdAt']; index as i" (click)="updateOrDeleteSchedule(row, i)"></tr>
-  </table>
-</ng-container>
+  <tr mat-header-row *matHeaderRowDef="['movie.name', 'theater.number', 'date', 'time', 'price', 'createdAt']"></tr>
+  <tr mat-row *matRowDef="let row; columns: ['movie.name', 'theater.number', 'date', 'time', 'price', 'createdAt']; index as i" (click)="updateOrDeleteSchedule(row, i)"></tr>
+</table>
 <div *ngIf="schedules && !schedules.length">No results</div>
 <!-- <div *ngIf="!schedules?.length">No results wrong way</div> -->
 <button mat-fab (click)="createSchedule()">

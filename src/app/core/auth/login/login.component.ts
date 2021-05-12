@@ -4,7 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
-import { finalize, take, takeUntil } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { environment } from 'src/environments/environment';
 
@@ -16,7 +16,6 @@ import { environment } from 'src/environments/environment';
 export class LoginComponent implements OnInit, OnDestroy {
   private onComponentDestroy$: Subject<void> = new Subject<void>();
   loginForm!: FormGroup;
-  isLoggingIn!: boolean;
 
   constructor(
     private router: Router,
@@ -38,11 +37,9 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   public login(): void {
     if (this.loginForm.valid) {
-      this.isLoggingIn = true;
       this.authService.login(this.loginForm.value).pipe(
         take(1),
-        takeUntil(this.onComponentDestroy$),
-        finalize(() => this.isLoggingIn = false)
+        takeUntil(this.onComponentDestroy$)
       ).subscribe(
         (response: { token: string }) => {
           if (response) {

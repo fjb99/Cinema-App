@@ -1,15 +1,16 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LoginComponent } from './auth/login/login.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import {MatCardModule} from '@angular/material/card';
-import { TokenInterceptor } from 'src/app/core/interceptors/token.interceptor';
-import {MatButtonModule} from '@angular/material/button';
+
 import { LoadingInterceptor } from 'src/app/core/interceptors/loading.interceptor';
+import { TokenInterceptor } from 'src/app/core/interceptors/token.interceptor';
+import { LoginComponent } from './auth/login/login.component';
 
 @NgModule({
   imports: [

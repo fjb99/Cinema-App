@@ -12,29 +12,23 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     private isLoggedIn(): boolean {
         const storedUserDataAsString: string | null = localStorage.getItem(environment.loggedInUserLocalStorageKey);
         const storedUserDataAsObject: { token?: string } | null = storedUserDataAsString && JSON.parse(storedUserDataAsString);
-        const isLoggedIn: boolean = !!storedUserDataAsObject?.token;
-        return isLoggedIn;
+        if (!storedUserDataAsObject?.token) {
+            this.router.navigateByUrl('/login');
+        }
+        return !!storedUserDataAsObject?.token;
     }
 
     canActivate(
         route: ActivatedRouteSnapshot,
         state: RouterStateSnapshot
     ): Observable<boolean> | Promise<boolean> | boolean {
-        const isLoggedIn: boolean = this.isLoggedIn();
-        if (!isLoggedIn) {
-            this.router.navigateByUrl('/login');
-        }
-        return isLoggedIn;
+        return this.isLoggedIn();
     }
 
     canActivateChild(
         route: ActivatedRouteSnapshot,
         state: RouterStateSnapshot
     ): Observable<boolean> | Promise<boolean> | boolean {
-        const isLoggedIn: boolean = this.isLoggedIn();
-        if (!isLoggedIn) {
-            this.router.navigateByUrl('/login');
-        }
-        return isLoggedIn;
+        return this.isLoggedIn();
     }
 }

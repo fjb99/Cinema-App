@@ -60,7 +60,7 @@ export class SchedulesComponent implements OnInit, OnDestroy, AfterViewInit {
     this.dataSource.sortingDataAccessor = (data: ISchedule, sortByPropertyName: string) => {
       const value: any = this.getPropertyValue(data, sortByPropertyName);
       return typeof value === 'string' ? value.toLowerCase() : value; // Ignore case during sort on strings
-    }
+    };
   }
 
   private getPropertyValue = (object: any, key: string): any => key.split('.').length ? key.split('.').reduce((acc, curr) => acc && acc[curr] || null, object) : object[key];

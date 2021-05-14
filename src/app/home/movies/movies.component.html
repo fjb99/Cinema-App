@@ -19,7 +19,7 @@
       <mat-card-title class="mb-4">{{ movie.name }} ({{ movie.year }})</mat-card-title>
       <mat-card-subtitle>Created: {{ movie.createdAt | date: 'dd/MM/YYYY' }}</mat-card-subtitle>
       <img mat-card-image [src]="movie.imageUrl" alt="Photo of a Shiba Inu">
-      <div class="mb-2">Kategoria: {{ movie.category?.name }}</div>
+      <div class="mb-2">Category: {{ movie.category?.name }}</div>
       <div class="mb-2">Description: {{ movie.description }}</div>
       <div>Rating: {{ movie.rating }}</div>
       <mat-card-actions class="d-flex">
